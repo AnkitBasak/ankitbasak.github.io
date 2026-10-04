@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ankit Basak</title>
+<meta name="description" content="Ankit Basak — chemical biologist building single-cell and spatial tools to read the glycan code in human tissues. PhD, MIT (Kiessling & Shalek Labs); incoming postdoc, Baker Lab, Institute for Protein Design.">
+<meta property="og:title" content="Ankit Basak">
+<meta property="og:description" content="Single-cell & spatial glycobiology · MIT → Institute for Protein Design">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230d6b67'/><text x='32' y='43' font-family='Georgia,serif' font-size='30' text-anchor='middle' fill='white'>AB</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbfaf7; --surface:#ffffff; --ink:#1b1f23; --muted:#5d6670; --line:#e6e2da;
+  --accent:#0d6b67; --accent-soft:#e3f1ef; --accent-2:#b5446e; --shadow:0 1px 2px rgba(0,0,0,.04),0 6px 24px rgba(0,0,0,.05);
+  --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1316; --surface:#161b1f; --ink:#e8ecef; --muted:#9aa5ae; --line:#262d33;
+    --accent:#5cc8bf; --accent-soft:#16302e; --accent-2:#e88aae; --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1316; --surface:#161b1f; --ink:#e8ecef; --muted:#9aa5ae; --line:#262d33;
+  --accent:#5cc8bf; --accent-soft:#16302e; --accent-2:#e88aae; --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 24px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+
+/* nav */
+header.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
+.brand{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--ink)}
+.brand:hover{text-decoration:none}
+.links{display:flex;gap:4px;align-items:center;overflow-x:auto;scrollbar-width:none}
+.links::-webkit-scrollbar{display:none}
+.links a{color:var(--muted);font-size:.9rem;padding:6px 10px;border-radius:8px;white-space:nowrap}
+.links a:hover,.links a.active{color:var(--ink);background:var(--accent-soft);text-decoration:none}
+.theme-btn{border:1px solid var(--line);background:var(--surface);color:var(--muted);width:34px;height:34px;border-radius:9px;cursor:pointer;flex:none;display:grid;place-items:center}
+.theme-btn:hover{color:var(--ink)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr 240px;gap:48px;align-items:center;padding:72px 0 40px}
+.eyebrow{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 10px}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.4rem,5vw,3.4rem);line-height:1.05;margin:0 0 14px;letter-spacing:-.01em}
+.tagline{font-size:1.15rem;color:var(--muted);margin:0 0 22px;max-width:36ch}
+.affil{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.pill{font-size:.82rem;padding:4px 11px;border-radius:99px;background:var(--accent-soft);color:var(--accent);font-weight:500}
+.pill.alt{background:color-mix(in srgb,var(--accent-2) 14%,transparent);color:var(--accent-2)}
+.social{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:500;padding:9px 16px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.btn:hover{border-color:var(--accent);text-decoration:none}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+:root[data-theme="dark"] .btn.primary{color:#0f1316}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.primary{color:#0f1316}}
+.btn svg{width:16px;height:16px}
+.photo{width:240px;height:240px;border-radius:50%;object-fit:cover;box-shadow:var(--shadow);border:6px solid var(--surface);background:var(--accent-soft)}
+.photo-fallback{width:240px;height:240px;border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-size:4.5rem;color:var(--accent);background:radial-gradient(circle at 30% 30%,var(--surface),var(--accent-soft));border:6px solid var(--surface);box-shadow:var(--shadow)}
+
+/* sections */
+section{padding:48px 0;border-top:1px solid var(--line)}
+h2{font-family:var(--serif);font-weight:600;font-size:1.75rem;margin:0 0 6px}
+.lede{color:var(--muted);margin:0 0 28px}
+h3{font-size:1.05rem;margin:0 0 6px;line-height:1.35}
+.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:40px}
+.about-grid p{margin:0 0 14px}
+.news{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+.news li{padding:0 0 14px 18px;position:relative;font-size:.93rem}
+.news li::before{content:"";position:absolute;left:-6px;top:8px;width:10px;height:10px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
+.news time{display:block;font-size:.78rem;color:var(--muted);font-weight:600;letter-spacing:.04em}
+.side-h{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 14px}
+
+/* research cards */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.card .icon{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);display:grid;place-items:center;margin-bottom:14px;color:var(--accent)}
+.card .icon svg{width:24px;height:24px}
+.card p{margin:0 0 12px;color:var(--muted);font-size:.95rem}
+.card details{margin-top:auto;border-top:1px dashed var(--line);padding-top:10px}
+.card summary{cursor:pointer;font-size:.88rem;font-weight:600;color:var(--accent);list-style:none}
+.card summary::-webkit-details-marker{display:none}
+.card summary::after{content:" +"}
+.card details[open] summary::after{content:" −"}
+.card details p{margin-top:8px;font-size:.92rem}
+.card .refs{font-size:.82rem;margin:4px 0 0}
+.card.wide{grid-column:1/-1}
+
+/* publications */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px}
+.tab{border:1px solid var(--line);background:var(--surface);color:var(--muted);font:500 .85rem var(--sans);padding:7px 14px;border-radius:99px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pubs{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.pub{display:grid;grid-template-columns:96px 1fr;gap:18px;padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.pub .venue{font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);border-radius:8px;padding:8px 6px;text-align:center;align-self:start;line-height:1.3}
+.pub .venue span{display:block;font-weight:500;color:var(--muted);text-transform:none;letter-spacing:0;margin-top:2px}
+.pub .title{font-weight:600;margin:0 0 4px;line-height:1.4}
+.pub .authors{font-size:.88rem;color:var(--muted);margin:0 0 6px}
+.pub .authors b{color:var(--ink)}
+.pub .authors button{border:0;background:none;color:var(--accent);font:inherit;cursor:pointer;padding:0}
+.pub .meta{font-size:.85rem;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.status{font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:99px;background:color-mix(in srgb,var(--accent-2) 14%,transparent);color:var(--accent-2)}
+.note{font-size:.82rem;color:var(--muted);margin-top:14px}
+
+/* lists */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.93rem}
+.list li:last-child{border-bottom:0}
+.list .yr{color:var(--muted);font-weight:600;font-size:.85rem;padding-top:1px}
+.list .sub{color:var(--muted);font-size:.85rem;display:block}
+.timeline .role{font-weight:600}
+details.more{margin-top:10px}
+details.more summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:.88rem}
+
+/* contact */
+.contact{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px;box-shadow:var(--shadow)}
+.contact p{margin:0;color:var(--muted)}
+footer{padding:32px 0 48px;color:var(--muted);font-size:.82rem;text-align:center}
+
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr;gap:28px;padding:44px 0 28px;text-align:left}
+  .hero .photo,.hero .photo-fallback{width:150px;height:150px;font-size:3rem;order:-1}
+  .about-grid,.two,.cards{grid-template-columns:1fr}
+  .pub{grid-template-columns:1fr;gap:10px}
+  .pub .venue{justify-self:start;text-align:left}
+  .brand{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">Ankit Basak</a>
+    <nav class="links" aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#talks">Talks</a>
+      <a href="#honors">Honors</a>
+      <a href="#experience">Experience</a>
+      <a href="assets/Ankit_Basak_CV.pdf" target="_blank" rel="noopener">CV</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+  <!-- ============ HERO ============ -->
+  <div class="hero">
+    <div>
+      <p class="eyebrow">Chemical biology · Single-cell &amp; spatial omics</p>
+      <h1>Ankit Basak</h1>
+      <p class="tagline">I build tools to read the glycan code of human tissues — one cell, and one spatial niche, at a time.</p>
+      <div class="affil">
+        <span class="pill">PhD Candidate, MIT Chemistry</span>
+        <span class="pill">Kiessling &amp; Shalek Labs</span>
+        <span class="pill alt">Incoming Postdoc · Baker Lab, IPD (2027)</span>
+      </div>
+      <div class="social">
+        <a class="btn primary" href="mailto:ankitb@mit.edu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email
+        </a>
+        <a class="btn" href="assets/Ankit_Basak_CV.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 13h6M9 17h6"/></svg>CV
+        </a>
+        <!-- TODO: uncomment and add your profile URLs
+        <a class="btn" href="https://scholar.google.com/citations?user=YOUR_ID" target="_blank" rel="noopener">Google Scholar</a>
+        <a class="btn" href="https://www.linkedin.com/in/YOUR_HANDLE" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://github.com/YOUR_USERNAME" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://bsky.app/profile/YOUR_HANDLE" target="_blank" rel="noopener">Bluesky</a>
+        -->
+      </div>
+    </div>
+    <!-- Add a square headshot at assets/profile.jpg; the initials show until you do. -->
+    <img class="photo" src="assets/profile.jpg" alt="Portrait of Ankit Basak"
+         onerror="this.outerHTML='<div class=&quot;photo-fallback&quot; aria-hidden=&quot;true&quot;>AB</div>'">
+  </div>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about">
+    <div class="about-grid">
+      <div>
+        <h2>About</h2>
+        <p>I'm a PhD candidate in Chemistry at <b>MIT</b>, co-advised by <a href="https://kiesslinglab.com/" target="_blank" rel="noopener">Prof. Laura Kiessling</a> and <a href="https://shaleklab.com/" target="_blank" rel="noopener">Prof. Alex Shalek</a>. Glycans coat every cell, yet they are among the hardest molecules to measure in tissue. My work develops <b>multimodal single-cell and spatial platforms</b> that read out functional glycosylation alongside protein and mRNA, using DNA-barcoded human recombinant lectins.</p>
+        <p>With these tools I've mapped how lectin-binding glycan patterns shift during immune activation in blood, uncovered cancer-associated glycan niches in follicular lymphoma with diagnostic value, and charted how epithelial cells shape immune and microbial communities in oral inflammatory disease.</p>
+        <p>I trained first as a physical chemist at <b>IISER Kolkata</b> (B.S.–M.S.), working on perovskite nanowires and single-particle tracking, and on MRI pulse sequences at the <b>Weizmann Institute</b>. In January 2027 I'll join <b>David Baker's lab</b> at the <a href="https://www.ipd.uw.edu/" target="_blank" rel="noopener">Institute for Protein Design</a>, University of Washington, as a postdoctoral fellow, working at the interface of biology and AI.</p>
+      </div>
+      <aside>
+        <p class="side-h">News</p>
+        <ul class="news">
+          <li><time>2027</time>Starting a postdoc in the Baker Lab at the Institute for Protein Design, UW.</li>
+          <li><time>2026</time>Invited talk at the Broad Institute Board of Scientific Counsellors annual meeting.</li>
+          <li><time>2026</time>Talk at the Single-Cell Cancer Biology Gordon Research Conference, Ventura.</li>
+          <li><time>2026</time>Our glycan-profiling preprint is out on <a href="https://doi.org/10.64898/2026.02.23.707224" target="_blank" rel="noopener">bioRxiv</a>.</li>
+          <li><time>2026</time>IN-DEPTH same-slide spatial multi-omics published in <i>Cancer Discovery</i>.</li>
+          <li><time>2026</time>Koch Institute Image Award (second year running).</li>
+          <li><time>2025</time>Named a Neil and Anna Rasmussen Fellow at MIT.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ RESEARCH ============ -->
+  <section id="research">
+    <h2>Research</h2>
+    <p class="lede">Measuring the sugar layer of human cells in tissue context, and using it to understand immunity and disease.</p>
+    <div class="cards">
+
+      <article class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="13" r="2.5"/><circle cx="12" cy="20.5" r="1.8"/><path d="M7.8 7.6 10.3 11.4M16.2 7.6 13.7 11.4M12 15.5v3.2"/></svg></div>
+        <h3>GlycoScope: functional glycan profiling at single-cell and spatial resolution</h3>
+        <p>A multimodal platform pairing DNA-barcoded human recombinant lectins with protein and mRNA readouts, so glycan binding can be measured in the same cell and the same tissue section as everything else.</p>
+        <details>
+          <summary>The bigger picture</summary>
+          <p>Glycans control how immune cells recognize self from non-self, yet standard omics leave them out. Applied to human blood and lymphoma, GlycoScope revealed glycan shifts tied to immune activation and distinct, diagnostically informative glycan niches in follicular lymphoma.</p>
+          <p class="refs"><a href="https://doi.org/10.64898/2026.02.23.707224" target="_blank" rel="noopener">Basak*, Ortiz-Cordero*, Yiu* et al., bioRxiv 2026 →</a></p>
+        </details>
+      </article>
+
+      <article class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9c0-3 3.6-5 8-5s8 2 8 5c0 4-2 11-4 11-1.6 0-1.6-5-4-5s-2.4 5-4 5c-2 0-4-7-4-11z"/></svg></div>
+        <h3>Oral mucosal inflammation</h3>
+        <p>Single-cell and spatial atlases of periodontitis, peri-implantitis and human fungiform taste buds, asking how epithelial and stromal cells organize the immune and microbial life around them.</p>
+        <details>
+          <summary>The bigger picture</summary>
+          <p>The oral mucosa sits at a constant interface with microbes. Mapping which cells recruit which immune populations in health versus inflammation points to cell-type-specific targets for therapy design.</p>
+          <p class="refs">Two first-author manuscripts in preparation.</p>
+        </details>
+      </article>
+
+      <article class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+        <h3>Spatial multi-omics &amp; glyco-immunology</h3>
+        <p>Collaborative work integrating many molecular layers on the same tissue slide, and on how carbohydrate–lectin interactions can reprogram dendritic cells for anti-tumor immunity.</p>
+        <details>
+          <summary>The bigger picture</summary>
+          <p>Combining glycan, protein and transcript measurements in space moves us toward a computationally complete picture of the tumor microenvironment.</p>
+          <p class="refs"><a href="https://doi.org/10.1158/2159-8290.CD-25-0775" target="_blank" rel="noopener">Cancer Discovery 2026</a> · <a href="https://doi.org/10.1021/acsnano.4c07360" target="_blank" rel="noopener">ACS Nano 2024</a></p>
+        </details>
+      </article>
+
+      <article class="card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg></div>
+        <h3>Physical chemistry roots</h3>
+        <p>Before biology: synthesis, optical characterization and single-particle tracking of CsPbBr<sub>3</sub> perovskite nanowires and quantum dots at IISER Kolkata, and pulse-sequence design for diffusion MRI and solid-state NMR at the Weizmann Institute.</p>
+        <details>
+          <summary>The bigger picture</summary>
+          <p>A quantitative, measurement-first way of thinking that carries into how I design biological assays today.</p>
+          <p class="refs"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Otikovs+Basak+Frydman+spatiotemporal+encoding" target="_blank" rel="noopener">Otikovs, Basak &amp; Frydman, Magn. Reson. Imaging 2022 →</a></p>
+        </details>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ PUBLICATIONS ============ -->
+  <section id="publications">
+    <h2>Publications</h2>
+    <p class="lede">* denotes equal contribution.</p>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-f="all">All</button>
+      <button class="tab" role="tab" aria-selected="false" data-f="pub">Published</button>
+      <button class="tab" role="tab" aria-selected="false" data-f="pre">Preprints</button>
+      <button class="tab" role="tab" aria-selected="false" data-f="prep">In preparation</button>
+    </div>
+    <ul class="pubs">
+
+      <li class="pub" data-k="pre">
+        <div class="venue">bioRxiv<span>2026</span></div>
+        <div>
+          <p class="title">Single-Cell and Spatial Methods for Multimodal Functional Glycan Profiling in Tissues</p>
+          <p class="authors">Basak, A.*, Ortiz-Cordero, C.*, Yiu, S.P.T.*, Allison, S., Sweeting, S., Shan, F., Tong, Y.E., Chorghade, R., Sosa-Guir, A., Alakwe, S.D., Tzouanas, C., Zhu, B., Gabba, A., Yeo, Y.Y., Wu, W., Qiu, H., Chang, Y., Wang, C., Carpenter, E.J., Gupta, S., Lima, G.M., Parmelee, L., Rock, P., Zhang, Y., Derda, R., Burack, W.R., Ma, Q., Jiang, S., Kiessling, L.</p>
+          <div class="meta"><span class="status">Under revision · Nature Biotechnology</span><a href="https://doi.org/10.64898/2026.02.23.707224" target="_blank" rel="noopener">Preprint →</a></div>
+        </div>
+      </li>
+
+      <li class="pub" data-k="pub">
+        <div class="venue">Cancer Discov.<span>2026</span></div>
+        <div>
+          <p class="title">Same-Slide Spatial Multi-Omics Integration with IN-DEPTH Reveals Tumor Virus-Linked Spatial Reorganization of the Tumor Microenvironment</p>
+          <p class="authors">Yiu, S.P.T.*, Chang, Y.*, Yeo, Y.Y.*, Qiu, H.*, Wu, W.*, Michel, H.A., Jin, X., Huang, R., Kure, S., Parmelee, L., Luo, S., Cramer, P., Lee, J.L., Wang, Y., Zhao, Z., Yeung, J., El Ahmar, N., Simsek, B., Mohanna, R., Van Orden, M., Lu, W.S., Livak, K.J., Li, S., Gao, C., Burgess, M., Keane, C., Shahryari, J., Kingsley, L.G., Al-Humadi, R.N., Nasr, S., Nkosi, D., Sadigh, S., Rock, P., Frauenfeld, L., Kaufmann, L., Zhu, B., Basak, A., Dhanikonda, N., Chan, C.N., Krull, J., Cho, Y.W., Chen, C.Y., Brown, J., Wang, H., Zhao, B., Lee, J.J., Loo, L.H., Kim, D.M., Boussiotis, V.A., Zhang, B., Wei, K., Shalek, A.K., Howitt, B.E., Signoretti, S., Schürch, C.M., Hodi, F.S., Burack, W.R., Rodig, S.J., Ma, Q., Jiang, S.</p>
+          <div class="meta"><span><i>Cancer Discovery</i> (2026)</span><a href="https://doi.org/10.1158/2159-8290.CD-25-0775" target="_blank" rel="noopener">DOI →</a></div>
+        </div>
+      </li>
+
+      <li class="pub" data-k="pre">
+        <div class="venue">bioRxiv<span>2026</span></div>
+        <div>
+          <p class="title">Toward Computationally Complete Spatial Omics</p>
+          <p class="authors">Li, W., Mao, L., Liu, Y., Peng, F., Sachs, N., Wu, W., Yiu, S.P.T., Yan, H., Schroeder, A., Yu, X., Jin, K., Jiang, S., Chen, Z., Loth, M., Gomez, L., Lubo, I., Blank, N., Samarah, L.Z., Basak, A., Cho, Y.W., Chen, C.Y., Kim, D.M., Shalek, A.K., Soto, L.M.S., Rabinowitz, J.D., Reilly, M.P., Qian, X., Thaiss, C.A., Maegdefessel, L., Wang, L., Jiang, S., Deng, Y., Li, M.</p>
+          <div class="meta"><a href="https://doi.org/10.64898/2026.03.03.709303" target="_blank" rel="noopener">Preprint →</a></div>
+        </div>
+      </li>
+
+      <li class="pub" data-k="pub">
+        <div class="venue">ACS Nano<span>2024</span></div>
+        <div>
+          <p class="title">Carbohydrate–Lectin Interactions Reprogram Dendritic Cells to Promote Type 1 Anti-Tumor Immunity</p>
+          <p class="authors">Lensch, V., Gabba, A., Hincapie, R., Bhagchandani, S., Basak, A., Alam, M.M., Noble, J., Irvine, D.J., Shalek, A.K., Johnson, J.A., Finn, M.G., Kiessling, L.</p>
+          <div class="meta"><span><i>ACS Nano</i> 18(39), 26770–26783</span><a href="https://doi.org/10.1021/acsnano.4c07360" target="_blank" rel="noopener">DOI →</a></div>
+        </div>
+      </li>
+
+      <li class="pub" data-k="pub">
+        <div class="venue">Magn. Reson. Imaging<span>2022</span></div>
+        <div>
+          <p class="title">Spatiotemporal encoding MRI using subspace-constrained sampling and locally-low-rank regularization: Applications to diffusion weighted and diffusion kurtosis imaging of human brain and prostate</p>
+          <p class="authors">Otikovs, M., Basak, A., Frydman, L.</p>
+          <div class="meta"><span><i>Magnetic Resonance Imaging</i> 94, 151–160</span><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Otikovs+Basak+Frydman+spatiotemporal+encoding" target="_blank" rel="noopener">PubMed →</a></div>
+        </div>
+      </li>
+
+      <li class="pub" data-k="prep">
+        <div class="venue">In prep.</div>
+        <div>
+          <p class="title">Single-cell and spatial landscape of human fungiform taste buds in oral mucosal health and inflammation</p>
+          <p class="authors">Basak, A.*, Zhu, B.*, Cho, Y.W.*, Han, Y.*, Alakwe, S.D., Parmelee, L., Yiu, S.P.T., Chen, C.Y., Kim, D.M., Wang, X., Kiessling, L., Shalek, A.K.</p>
+        </div>
+      </li>
+
+      <li class="pub" data-k="prep">
+        <div class="venue">In prep.</div>
+        <div>
+          <p class="title">Epithelial cells regulate immune and microbial populations in oral mucosal inflammatory diseases periodontitis and peri-implantitis</p>
+          <p class="authors">Basak, A.*, Cho, Y.W.*, Yiu, S.P.T.*, Shiba, T., Hayath, M., Kiessling, L., Jiang, S., Chen, C.Y., Kim, D.M., Shalek, A.K.</p>
+        </div>
+      </li>
+
+    </ul>
+  </section>
+
+  <!-- ============ TALKS ============ -->
+  <section id="talks">
+    <h2>Talks &amp; Posters</h2>
+    <p class="lede">Invited talks</p>
+    <ul class="list">
+      <li><span class="yr">2026</span><span>Broad Institute Board of Scientific Counsellors Annual Meeting<span class="sub">Single-Cell and Spatial Methods for Multimodal Functional Glycan Profiling in Tissues · Cambridge, MA</span></span></li>
+      <li><span class="yr">2026</span><span>Single-Cell Cancer Biology Gordon Research Conference<span class="sub">Single-Cell and Spatial Methods for Multimodal Functional Glycan Profiling in Tissues · Ventura, CA</span></span></li>
+      <li><span class="yr">2025</span><span>Broad Institute Chemical Biology Supergroup<span class="sub">Single-Cell and Spatial Methods for Multimodal Functional Glycan Profiling in Tissues · Cambridge, MA</span></span></li>
+      <li><span class="yr">2025</span><span>Koch Institute Focus Talk<span class="sub">Single-Cell and Spatial Methods for Multimodal Functional Glycan Profiling in Tissues · Cambridge, MA</span></span></li>
+      <li><span class="yr">2025</span><span>Broad Institute Cell Circuits and Epigenetics Program<span class="sub">Single-Cell and Spatial Methods for Multimodal Functional Glycan Profiling in Tissues · Cambridge, MA</span></span></li>
+      <li><span class="yr">2024</span><span>MIT–Merck Symposium<span class="sub">Decoding oral mucosal gene regulatory circuits for targeted therapy design · Cambridge, MA</span></span></li>
+    </ul>
+    <details class="more">
+      <summary>Poster presentations (7)</summary>
+      <ul class="list" style="margin-top:8px">
+        <li><span class="yr">2026</span><span>American Association of Immunologists Annual Meeting<span class="sub">Multimodal functional glycan profiling in tissues · Boston, MA</span></span></li>
+        <li><span class="yr">2026</span><span>Single-Cell Cancer Biology GRC &amp; GRS<span class="sub">Multimodal functional glycan profiling in tissues · Ventura, CA</span></span></li>
+        <li><span class="yr">2025</span><span>Broad Institute Annual Retreat<span class="sub">Multimodal functional glycan profiling in tissues · Cambridge, MA</span></span></li>
+        <li><span class="yr">2025</span><span>Carbohydrates GRC &amp; GRS<span class="sub">Multimodal functional glycan profiling in tissues · New Hampshire</span></span></li>
+        <li><span class="yr">2025</span><span>American Association of Immunologists Annual Meeting<span class="sub">Epithelial cells regulate immune and microbial populations in periodontitis and peri-implantitis · Honolulu, HI</span></span></li>
+        <li><span class="yr">2024</span><span>MIT HEALS Collaborative<span class="sub">Developing novel methods to decipher the Glycan Code for next-generation immunotherapeutics · Cambridge, MA</span></span></li>
+        <li><span class="yr">2024</span><span>Ono Pharma Foundation Annual Symposium<span class="sub">Developing novel methods to decipher the Glycan Code for next-generation immunotherapeutics · Cambridge, MA</span></span></li>
+      </ul>
+    </details>
+  </section>
+
+  <!-- ============ HONORS ============ -->
+  <section id="honors">
+    <div class="two">
+      <div>
+        <h2>Honors</h2>
+        <p class="lede">Fellowships and awards</p>
+        <ul class="list">
+          <li><span class="yr">2026</span><span>Koch Institute Image Award, MIT</span></li>
+          <li><span class="yr">2025</span><span>Neil and Anna Rasmussen Fellowship, MIT</span></li>
+          <li><span class="yr">2025</span><span>Koch Institute Image Award, MIT</span></li>
+          <li><span class="yr">2024</span><span>David H. Koch Fellowship, MIT</span></li>
+          <li><span class="yr">2024</span><span>Howard O. McMahon Fund for Physical Chemistry Fellowship, MIT</span></li>
+          <li><span class="yr">2021</span><span>Owen Fellowship, Johns Hopkins University <span class="sub">Declined</span></span></li>
+          <li><span class="yr">2021</span><span>Cornell Fellowship, Cornell University <span class="sub">Declined</span></span></li>
+          <li><span class="yr">2019</span><span>Kupcinet-Getz International Summer School, Weizmann Institute of Science</span></li>
+          <li><span class="yr">2016–21</span><span>INSPIRE Fellowship, Government of India</span></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Grants</h2>
+        <p class="lede">Co-author and key personnel</p>
+        <ul class="list">
+          <li><span class="yr">2024–26</span><span>Koch Institute Traditional Bridge Award<span class="sub">PIs: Shalek, Kiessling, Jiang · $800,000</span></span></li>
+          <li><span class="yr">2024–26</span><span>Coca-Cola Alternatives to Sugar Grand Challenge<span class="sub">PIs: Shalek, Kiessling · $650,000</span></span></li>
+          <li><span class="yr">2024–26</span><span>MIT School of Science Research Innovation Award<span class="sub">PI: Shalek · $150,000</span></span></li>
+          <li><span class="yr">2023–24</span><span>Koch Institute Frontier Award<span class="sub">PIs: Shalek, Kiessling · $150,000</span></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXPERIENCE ============ -->
+  <section id="experience">
+    <div class="two">
+      <div>
+        <h2>Experience</h2>
+        <p class="lede">Research &amp; teaching</p>
+        <ul class="list timeline">
+          <li><span class="yr">2027–</span><span><span class="role">Postdoctoral Fellow</span><span class="sub">Baker Lab, Institute for Protein Design, University of Washington (incoming)</span></span></li>
+          <li><span class="yr">2021–</span><span><span class="role">Graduate Research Associate</span><span class="sub">Kiessling &amp; Shalek Labs, MIT</span></span></li>
+          <li><span class="yr">2021–22</span><span><span class="role">Graduate Teaching Associate</span><span class="sub">Thermodynamics I (5.601) &amp; II (5.602), MIT</span></span></li>
+          <li><span class="yr">2019–21</span><span><span class="role">Graduate Research Associate</span><span class="sub">Mandal Lab, IISER Kolkata</span></span></li>
+          <li><span class="yr">2019</span><span><span class="role">Summer Research Associate</span><span class="sub">Frydman Lab, Weizmann Institute of Science, Israel</span></span></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Education</h2>
+        <p class="lede">Degrees</p>
+        <ul class="list">
+          <li><span class="yr">2021–</span><span><span class="role">Ph.D., Chemistry</span><span class="sub">Massachusetts Institute of Technology · Advisors: Laura L. Kiessling &amp; Alex K. Shalek</span></span></li>
+          <li><span class="yr">2016–21</span><span><span class="role">B.S.–M.S., Chemistry</span><span class="sub">IISER Kolkata · Thesis: CsPbBr<sub>3</sub> perovskite nanowires — synthesis, optical properties and single-particle tracking · Advisor: Prasun K. Mandal</span></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact">
+    <div class="contact">
+      <div>
+        <h2>Get in touch</h2>
+        <p>Happy to talk glycobiology, spatial omics, tool-building, and collaborations.</p>
+      </div>
+      <div class="social">
+        <a class="btn primary" href="mailto:ankitb@mit.edu">ankitb@mit.edu</a>
+        <a class="btn" href="assets/Ankit_Basak_CV.pdf" target="_blank" rel="noopener">Download CV</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © <span id="yr">2026</span> Ankit Basak · Hosted on GitHub Pages
+</footer>
+
+<script>
+// Theme toggle (remembers choice when storage is available)
+(function(){
+  var root=document.documentElement, KEY='theme';
+  try{var s=localStorage.getItem(KEY); if(s) root.setAttribute('data-theme',s);}catch(e){}
+  document.getElementById('themeBtn').addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{localStorage.setItem(KEY,next);}catch(e){}
+  });
+})();
+
+// Bold your name in author lists; collapse long lists
+document.querySelectorAll('.pub .authors').forEach(function(el){
+  var re=/\s*([^,]+),\s*((?:[A-Z]\.)+\*?)/g, m, names=[];
+  while((m=re.exec(el.textContent))) names.push(m[1].trim()+', '+m[2]);
+  var fmt=function(n){return /^Basak,/.test(n)?'<b>'+n+'</b>':n;};
+  var full=names.map(fmt).join(', ');
+  var me=names.findIndex(function(n){return /^Basak,/.test(n)});
+  var keep=Math.max(5, me+1);
+  if(names.length-keep>3){
+    el.innerHTML=names.slice(0,keep).map(fmt).join(', ')+', … '+fmt(names[names.length-1])+' <button type="button">show all '+names.length+'</button>';
+    el.querySelector('button').addEventListener('click',function(){el.innerHTML=full;});
+  } else el.innerHTML=full;
+});
+
+// Publication filter tabs
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.setAttribute('aria-selected','false')});
+    t.setAttribute('aria-selected','true');
+    var f=t.dataset.f;
+    document.querySelectorAll('.pub').forEach(function(p){p.style.display=(f==='all'||p.dataset.k===f)?'':'none';});
+  });
+});
+
+// Highlight current section in nav
+var links=[].slice.call(document.querySelectorAll('.links a[href^="#"]'));
+var obs=new IntersectionObserver(function(es){
+  es.forEach(function(e){ if(e.isIntersecting){
+    links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id)});
+  }});
+},{rootMargin:'-40% 0px -55% 0px'});
+document.querySelectorAll('section[id]').forEach(function(s){obs.observe(s)});
+document.getElementById('yr').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
