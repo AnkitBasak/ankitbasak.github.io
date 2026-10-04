@@ -47,7 +47,7 @@ header.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--b
 .theme-btn:hover{color:var(--ink)}
 
 /* hero */
-.hero{display:grid;grid-template-columns:1fr 240px;gap:48px;align-items:center;padding:72px 0 40px}
+.hero{display:grid;grid-template-columns:1fr 240px;gap:48px;align-items:center;padding:72px 0 88px}
 .eyebrow{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 10px}
 h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.4rem,5vw,3.4rem);line-height:1.05;margin:0 0 14px;letter-spacing:-.01em}
 .tagline{font-size:1.15rem;color:var(--muted);margin:0 0 22px;max-width:36ch}
@@ -132,6 +132,43 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.82rem;text-align:center
   .pub .venue{justify-self:start;text-align:left}
   .brand{display:none}
 }
+
+/* ===== hero background: KI images + glycocalyx ===== */
+.hero-zone{position:relative}
+.hero{position:relative;z-index:2}
+.ki-bg{position:absolute;top:-61px;bottom:0;left:50%;width:100vw;transform:translateX(-50%);z-index:0;overflow:hidden;pointer-events:none;
+  -webkit-mask-image:linear-gradient(to bottom,#000 55%,transparent);mask-image:linear-gradient(to bottom,#000 55%,transparent)}
+.ki-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 2.2s ease;filter:saturate(.9)}
+.ki-bg img.on{opacity:.32;animation:kenburns 22s ease-in-out infinite alternate}
+.ki-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 0%,color-mix(in srgb,var(--bg) 75%,transparent) 40%,transparent 70%)}
+@keyframes kenburns{from{transform:scale(1.02) translate(0,0)}to{transform:scale(1.14) translate(-2.5%,1.5%)}}
+#glycoCanvas{position:absolute;bottom:0;left:50%;width:100vw;height:100%;transform:translateX(-50%);z-index:1;pointer-events:none;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.25) 38%,#000 60%);mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.25) 38%,#000 60%)}
+.ki-credit{position:absolute;right:0;top:10px;z-index:3;font-size:.72rem;color:var(--muted);opacity:0;transition:opacity 1s}
+.ki-credit.on{opacity:.9}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ki-bg img.on{opacity:.45}}
+:root[data-theme="dark"] .ki-bg img.on{opacity:.45}
+@media (max-width:760px){
+  #glycoCanvas{opacity:.55;-webkit-mask-image:linear-gradient(to bottom,transparent 45%,#000 85%);mask-image:linear-gradient(to bottom,transparent 45%,#000 85%)}
+  .ki-bg img.on{opacity:.18!important}
+  .ki-bg::after{background:linear-gradient(to bottom,var(--bg) 0%,transparent 60%)}
+  .ki-credit{display:none}
+}
+
+/* ===== flip cards ===== */
+.flip{perspective:1400px;display:flex}
+.flip-inner{display:grid;width:100%;transition:transform .8s cubic-bezier(.3,.7,.2,1);transform-style:preserve-3d}
+.flip.flipped .flip-inner{transform:rotateY(180deg)}
+.face{grid-area:1/1;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--surface);border:1px solid var(--line);
+  border-radius:16px;padding:22px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.face.back{transform:rotateY(180deg);background:linear-gradient(160deg,var(--surface),var(--accent-soft))}
+.face p{margin:0 0 12px;color:var(--muted);font-size:.95rem}
+.face .refs{font-size:.84rem;margin-top:auto;padding-top:6px}
+.flip-btn{margin-top:auto;align-self:flex-start;border:0;background:none;color:var(--accent);font:600 .88rem var(--sans);cursor:pointer;padding:6px 0;display:inline-flex;gap:6px;align-items:center}
+.flip-btn .ic{display:inline-block;transition:transform .5s}
+.flip-btn:hover .ic{transform:rotate(180deg)}
+.back .flip-btn{margin-top:10px}
+@media (prefers-reduced-motion:reduce){.ki-bg img.on{animation:none}.flip-inner{transition:none}}
 </style>
 </head>
 <body>
@@ -158,15 +195,19 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.82rem;text-align:center
 <main class="wrap" id="top">
 
   <!-- ============ HERO ============ -->
+  <div class="hero-zone">
+  <!-- Koch Institute Image Award images: drop files into assets/ki/ and list them in KI_IMAGES at the bottom of this file -->
+  <div class="ki-bg" id="kiBg" aria-hidden="true"></div>
+  <canvas id="glycoCanvas" aria-hidden="true"></canvas>
   <div class="hero">
     <div>
       <p class="eyebrow">Chemical biology · Single-cell &amp; spatial omics</p>
       <h1>Ankit Basak</h1>
-      <p class="tagline">I build tools to read the glycan code of human tissues — one cell, and one spatial niche, at a time. I use these tools to study cancer, infectious and inflammatory diseases in the human body. </p>
+      <p class="tagline">I build tools to read the glycan code of human tissues — one cell, and one spatial niche, at a time.</p>
       <div class="affil">
         <span class="pill">PhD Candidate, MIT Chemistry</span>
         <span class="pill">Kiessling &amp; Shalek Labs</span>
-        <span class="pill alt">Incoming Postdoc · Nobel Laureate David Baker's Lab, IPD, University of Washington (2027)</span>
+        <span class="pill alt">Incoming Postdoc · Baker Lab, IPD (2027)</span>
       </div>
       <div class="social">
         <a class="btn primary" href="mailto:ankitb@mit.edu">
@@ -187,15 +228,19 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.82rem;text-align:center
     <img class="photo" src="assets/profile.jpg" alt="Portrait of Ankit Basak"
          onerror="this.outerHTML='<div class=&quot;photo-fallback&quot; aria-hidden=&quot;true&quot;>AB</div>'">
   </div>
+  <p class="ki-credit" id="kiCredit"></p>
+  </div>
 
   <!-- ============ ABOUT ============ -->
   <section id="about">
     <div class="about-grid">
       <div>
         <h2>About</h2>
-        <p>I'm a PhD candidate in Chemistry at <b>MIT</b>, co-advised by <a href="https://kiesslinglab.com/" target="_blank" rel="noopener">Prof. Laura Kiessling</a> and <a href="https://shaleklab.com/" target="_blank" rel="noopener">Prof. Alex Shalek</a>. Glycans coat every cell, yet they are among the hardest molecules to measure in tissue since they are regulated outside the Central Dogma (post-translational modifications). They are like the unexplored dark matter of biology. My work develops <b>multimodal single-cell and spatial platforms</b> that read out functional glycosylation alongside protein and mRNA, using DNA-barcoded human recombinant lectins.</p>
-        <p>With these tools I've mapped how lectin-binding glycan patterns shift during immune activation in blood, uncovered cancer-associated glycan niches in follicular lymphoma with diagnostic value, and charted how epithelial and stromal cells help shape immune and microbial communities in oral inflammatory disease.</p>
-        <p>I trained first as a physical chemist at <b>IISER Kolkata</b> (B.S.–M.S.), working on perovskite nanowires and single-particle tracking, and on MRI pulse sequences at the <b>Weizmann Institute</b>.
+        <p>I'm a PhD candidate in Chemistry at <b>MIT</b>, co-advised by <a href="https://kiesslinglab.com/" target="_blank" rel="noopener">Prof. Laura Kiessling</a> and <a href="https://shaleklab.com/" target="_blank" rel="noopener">Prof. Alex Shalek</a>. Glycans coat every cell, yet they are among the hardest molecules to measure in tissue. My work develops <b>multimodal single-cell and spatial platforms</b> that read out functional glycosylation alongside protein and mRNA, using DNA-barcoded human recombinant lectins.</p>
+        <p>With these tools I've mapped how lectin-binding glycan patterns shift during immune activation in blood, uncovered cancer-associated glycan niches in follicular lymphoma with diagnostic value, and charted how epithelial cells shape immune and microbial communities in oral inflammatory disease.</p>
+        <p>I trained first as a physical chemist at <b>IISER Kolkata</b> (B.S.–M.S.), working on perovskite nanowires and single-particle tracking, and on MRI pulse sequences at the <b>Weizmann Institute</b>. In January 2027 I'll join <b>David Baker's lab</b> at the <a href="https://www.ipd.uw.edu/" target="_blank" rel="noopener">Institute for Protein Design</a>, University of Washington, as a postdoctoral fellow, working at the interface of biology and AI.</p>
+      </div>
+      <aside>
         <p class="side-h">News</p>
         <ul class="news">
           <li><time>2027</time>Starting a postdoc in the Baker Lab at the Institute for Protein Design, UW.</li>
@@ -216,48 +261,72 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.82rem;text-align:center
     <p class="lede">Measuring the sugar layer of human cells in tissue context, and using it to understand immunity and disease.</p>
     <div class="cards">
 
-      <article class="card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="13" r="2.5"/><circle cx="12" cy="20.5" r="1.8"/><path d="M7.8 7.6 10.3 11.4M16.2 7.6 13.7 11.4M12 15.5v3.2"/></svg></div>
-        <h3>GlycoScope: functional glycan profiling at single-cell and spatial resolution</h3>
-        <p>A multimodal platform pairing DNA-barcoded human recombinant lectins with protein and mRNA readouts, so glycan binding can be measured in the same cell and the same tissue section as everything else.</p>
-        <details>
-          <summary>The bigger picture</summary>
-          <p>Glycans control how immune cells recognize self from non-self, yet standard omics leave them out. Applied to human blood and lymphoma, GlycoScope revealed glycan shifts tied to immune activation and distinct, diagnostically informative glycan niches in follicular lymphoma.</p>
-          <p class="refs"><a href="https://doi.org/10.64898/2026.02.23.707224" target="_blank" rel="noopener">Basak*, Ortiz-Cordero*, Yiu* et al., bioRxiv 2026 →</a></p>
-        </details>
+      <article class="flip">
+        <div class="flip-inner">
+          <div class="face front">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="13" r="2.5"/><circle cx="12" cy="20.5" r="1.8"/><path d="M7.8 7.6 10.3 11.4M16.2 7.6 13.7 11.4M12 15.5v3.2"/></svg></div>
+            <h3>GlycoScope: functional glycan profiling at single-cell and spatial resolution</h3>
+            <p>A multimodal platform pairing DNA-barcoded human recombinant lectins with protein and mRNA readouts, so glycan binding can be measured in the same cell and the same tissue section as everything else.</p>
+            <button class="flip-btn" type="button">Read the bigger picture <span class="ic">↻</span></button>
+          </div>
+          <div class="face back">
+            <h3>The bigger picture</h3>
+                        <p>Glycans control how immune cells recognize self from non-self, yet standard omics leave them out. Applied to human blood and lymphoma, GlycoScope revealed glycan shifts tied to immune activation and distinct, diagnostically informative glycan niches in follicular lymphoma.</p>
+            <p class="refs"><a href="https://doi.org/10.64898/2026.02.23.707224" target="_blank" rel="noopener">Basak*, Ortiz-Cordero*, Yiu* et al., bioRxiv 2026 →</a></p>
+            <button class="flip-btn" type="button">Back <span class="ic">↺</span></button>
+          </div>
+        </div>
       </article>
 
-      <article class="card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9c0-3 3.6-5 8-5s8 2 8 5c0 4-2 11-4 11-1.6 0-1.6-5-4-5s-2.4 5-4 5c-2 0-4-7-4-11z"/></svg></div>
-        <h3>Oral mucosal inflammation</h3>
-        <p>Single-cell and spatial atlases of periodontitis, peri-implantitis and human fungiform taste buds, asking how epithelial and stromal cells organize the immune and microbial life around them.</p>
-        <details>
-          <summary>The bigger picture</summary>
-          <p>The oral mucosa sits at a constant interface with microbes. Mapping which cells recruit which immune populations in health versus inflammation points to cell-type-specific targets for therapy design.</p>
-          <p class="refs">Two first-author manuscripts in preparation.</p>
-        </details>
+      <article class="flip">
+        <div class="flip-inner">
+          <div class="face front">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9c0-3 3.6-5 8-5s8 2 8 5c0 4-2 11-4 11-1.6 0-1.6-5-4-5s-2.4 5-4 5c-2 0-4-7-4-11z"/></svg></div>
+            <h3>Oral mucosal inflammation</h3>
+            <p>Single-cell and spatial atlases of periodontitis, peri-implantitis and human fungiform taste buds, asking how epithelial and stromal cells organize the immune and microbial life around them.</p>
+            <button class="flip-btn" type="button">Read the bigger picture <span class="ic">↻</span></button>
+          </div>
+          <div class="face back">
+            <h3>The bigger picture</h3>
+                        <p>The oral mucosa sits at a constant interface with microbes. Mapping which cells recruit which immune populations in health versus inflammation points to cell-type-specific targets for therapy design.</p>
+            <p class="refs">Two first-author manuscripts in preparation.</p>
+            <button class="flip-btn" type="button">Back <span class="ic">↺</span></button>
+          </div>
+        </div>
       </article>
 
-      <article class="card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
-        <h3>Spatial multi-omics &amp; glyco-immunology</h3>
-        <p>Collaborative work integrating many molecular layers on the same tissue slide, and on how carbohydrate–lectin interactions can reprogram dendritic cells for anti-tumor immunity.</p>
-        <details>
-          <summary>The bigger picture</summary>
-          <p>Combining glycan, protein and transcript measurements in space moves us toward a computationally complete picture of the tumor microenvironment.</p>
-          <p class="refs"><a href="https://doi.org/10.1158/2159-8290.CD-25-0775" target="_blank" rel="noopener">Cancer Discovery 2026</a> · <a href="https://doi.org/10.1021/acsnano.4c07360" target="_blank" rel="noopener">ACS Nano 2024</a></p>
-        </details>
+      <article class="flip">
+        <div class="flip-inner">
+          <div class="face front">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+            <h3>Spatial multi-omics &amp; glyco-immunology</h3>
+            <p>Collaborative work integrating many molecular layers on the same tissue slide, and on how carbohydrate–lectin interactions can reprogram dendritic cells for anti-tumor immunity.</p>
+            <button class="flip-btn" type="button">Read the bigger picture <span class="ic">↻</span></button>
+          </div>
+          <div class="face back">
+            <h3>The bigger picture</h3>
+                        <p>Combining glycan, protein and transcript measurements in space moves us toward a computationally complete picture of the tumor microenvironment.</p>
+            <p class="refs"><a href="https://doi.org/10.1158/2159-8290.CD-25-0775" target="_blank" rel="noopener">Cancer Discovery 2026</a> · <a href="https://doi.org/10.1021/acsnano.4c07360" target="_blank" rel="noopener">ACS Nano 2024</a></p>
+            <button class="flip-btn" type="button">Back <span class="ic">↺</span></button>
+          </div>
+        </div>
       </article>
 
-      <article class="card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg></div>
-        <h3>Physical chemistry roots</h3>
-        <p>Before biology: synthesis, optical characterization and single-particle tracking of CsPbBr<sub>3</sub> perovskite nanowires and quantum dots at IISER Kolkata, and pulse-sequence design for diffusion MRI and solid-state NMR at the Weizmann Institute.</p>
-        <details>
-          <summary>The bigger picture</summary>
-          <p>A quantitative, measurement-first way of thinking that carries into how I design biological assays today.</p>
-          <p class="refs"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Otikovs+Basak+Frydman+spatiotemporal+encoding" target="_blank" rel="noopener">Otikovs, Basak &amp; Frydman, Magn. Reson. Imaging 2022 →</a></p>
-        </details>
+      <article class="flip">
+        <div class="flip-inner">
+          <div class="face front">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg></div>
+            <h3>Physical chemistry roots</h3>
+            <p>Before biology: synthesis, optical characterization and single-particle tracking of CsPbBr<sub>3</sub> perovskite nanowires and quantum dots at IISER Kolkata, and pulse-sequence design for diffusion MRI and solid-state NMR at the Weizmann Institute.</p>
+            <button class="flip-btn" type="button">Read the bigger picture <span class="ic">↻</span></button>
+          </div>
+          <div class="face back">
+            <h3>The bigger picture</h3>
+                        <p>A quantitative, measurement-first way of thinking that carries into how I design biological assays today.</p>
+            <p class="refs"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Otikovs+Basak+Frydman+spatiotemporal+encoding" target="_blank" rel="noopener">Otikovs, Basak &amp; Frydman, Magn. Reson. Imaging 2022 →</a></p>
+            <button class="flip-btn" type="button">Back <span class="ic">↺</span></button>
+          </div>
+        </div>
       </article>
 
     </div>
@@ -280,7 +349,7 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.82rem;text-align:center
         <div>
           <p class="title">Single-Cell and Spatial Methods for Multimodal Functional Glycan Profiling in Tissues</p>
           <p class="authors">Basak, A.*, Ortiz-Cordero, C.*, Yiu, S.P.T.*, Allison, S., Sweeting, S., Shan, F., Tong, Y.E., Chorghade, R., Sosa-Guir, A., Alakwe, S.D., Tzouanas, C., Zhu, B., Gabba, A., Yeo, Y.Y., Wu, W., Qiu, H., Chang, Y., Wang, C., Carpenter, E.J., Gupta, S., Lima, G.M., Parmelee, L., Rock, P., Zhang, Y., Derda, R., Burack, W.R., Ma, Q., Jiang, S., Kiessling, L.</p>
-          <div class="meta"><span class="status">Accepted in principle · Nature Biotechnology</span><a href="https://doi.org/10.64898/2026.02.23.707224" target="_blank" rel="noopener">Preprint →</a></div>
+          <div class="meta"><span class="status">Under revision · Nature Biotechnology</span><a href="https://doi.org/10.64898/2026.02.23.707224" target="_blank" rel="noopener">Preprint →</a></div>
         </div>
       </li>
 
@@ -319,6 +388,23 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.82rem;text-align:center
           <div class="meta"><span><i>Magnetic Resonance Imaging</i> 94, 151–160</span><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Otikovs+Basak+Frydman+spatiotemporal+encoding" target="_blank" rel="noopener">PubMed →</a></div>
         </div>
       </li>
+
+      <li class="pub" data-k="prep">
+        <div class="venue">In prep.</div>
+        <div>
+          <p class="title">Single-cell and spatial landscape of human fungiform taste buds in oral mucosal health and inflammation</p>
+          <p class="authors">Basak, A.*, Zhu, B.*, Cho, Y.W.*, Han, Y.*, Alakwe, S.D., Parmelee, L., Yiu, S.P.T., Chen, C.Y., Kim, D.M., Wang, X., Kiessling, L., Shalek, A.K.</p>
+        </div>
+      </li>
+
+      <li class="pub" data-k="prep">
+        <div class="venue">In prep.</div>
+        <div>
+          <p class="title">Epithelial cells regulate immune and microbial populations in oral mucosal inflammatory diseases periodontitis and peri-implantitis</p>
+          <p class="authors">Basak, A.*, Cho, Y.W.*, Yiu, S.P.T.*, Shiba, T., Hayath, M., Kiessling, L., Jiang, S., Chen, C.Y., Kim, D.M., Shalek, A.K.</p>
+        </div>
+      </li>
+
     </ul>
   </section>
 
@@ -355,9 +441,9 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.82rem;text-align:center
         <h2>Honors</h2>
         <p class="lede">Fellowships and awards</p>
         <ul class="list">
-          <li><span class="yr">2026</span><span>Koch Institute Image Award, MIT</span><a href="https://ki-images.mit.edu/2026/Yiu-1" target="_blank" rel="noopener">Link</a>.</li>
-          <li><span class="yr">2025</span><span>MIT CMIT Neil and Anna Rasmussen Fellowship, MIT</span><a href="https://microbiome.mit.edu/microbiome_news/innovators-at-work-meet-the-2025-2026-neil-and-anna-rasmussen-fellows/" target="_blank" rel="noopener">Link</a>.</li>
-          <li><span class="yr">2025</span><span>Koch Institute Image Award, MIT</span><a href="https://ki-images.mit.edu/2025/Basak-2" target="_blank" rel="noopener">Link</a>.</li>
+          <li><span class="yr">2026</span><span>Koch Institute Image Award, MIT</span></li>
+          <li><span class="yr">2025</span><span>Neil and Anna Rasmussen Fellowship, MIT</span></li>
+          <li><span class="yr">2025</span><span>Koch Institute Image Award, MIT</span></li>
           <li><span class="yr">2024</span><span>David H. Koch Fellowship, MIT</span></li>
           <li><span class="yr">2024</span><span>Howard O. McMahon Fund for Physical Chemistry Fellowship, MIT</span></li>
           <li><span class="yr">2021</span><span>Owen Fellowship, Johns Hopkins University <span class="sub">Declined</span></span></li>
@@ -371,7 +457,7 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.82rem;text-align:center
         <p class="lede">Co-author and key personnel</p>
         <ul class="list">
           <li><span class="yr">2024–26</span><span>Koch Institute Traditional Bridge Award<span class="sub">PIs: Shalek, Kiessling, Jiang · $800,000</span></span></li>
-          <li><span class="yr">2024–26</span><span>Coca-Cola Alternatives to Sugar Grand Challenge<span class="sub">PIs: Shalek, Kiessling </span></span></li>
+          <li><span class="yr">2024–26</span><span>Coca-Cola Alternatives to Sugar Grand Challenge<span class="sub">PIs: Shalek, Kiessling · $650,000</span></span></li>
           <li><span class="yr">2024–26</span><span>MIT School of Science Research Innovation Award<span class="sub">PI: Shalek · $150,000</span></span></li>
           <li><span class="yr">2023–24</span><span>Koch Institute Frontier Award<span class="sub">PIs: Shalek, Kiessling · $150,000</span></span></li>
         </ul>
@@ -386,7 +472,7 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.82rem;text-align:center
         <h2>Experience</h2>
         <p class="lede">Research &amp; teaching</p>
         <ul class="list timeline">
-          <li><span class="yr">2027–</span><span><span class="role"> Incoming Postdoctoral Fellow</span><span class="sub">Nobel Laureate David Baker's Lab, Institute for Protein Design, University of Washington (incoming)</span></span></li>
+          <li><span class="yr">2027–</span><span><span class="role">Postdoctoral Fellow</span><span class="sub">Baker Lab, Institute for Protein Design, University of Washington (incoming)</span></span></li>
           <li><span class="yr">2021–</span><span><span class="role">Graduate Research Associate</span><span class="sub">Kiessling &amp; Shalek Labs, MIT</span></span></li>
           <li><span class="yr">2021–22</span><span><span class="role">Graduate Teaching Associate</span><span class="sub">Thermodynamics I (5.601) &amp; II (5.602), MIT</span></span></li>
           <li><span class="yr">2019–21</span><span><span class="role">Graduate Research Associate</span><span class="sub">Mandal Lab, IISER Kolkata</span></span></li>
@@ -470,6 +556,126 @@ var obs=new IntersectionObserver(function(es){
 },{rootMargin:'-40% 0px -55% 0px'});
 document.querySelectorAll('section[id]').forEach(function(s){obs.observe(s)});
 document.getElementById('yr').textContent=new Date().getFullYear();
+
+// ===== flip cards =====
+document.querySelectorAll('.flip').forEach(function(card){
+  var faces=card.querySelectorAll('.face');
+  function sync(){var f=card.classList.contains('flipped');faces[0].inert=f;faces[1].inert=!f;}
+  sync();
+  card.querySelectorAll('.flip-btn').forEach(function(b){b.addEventListener('click',function(){
+    card.classList.toggle('flipped');sync();
+    var t=card.querySelector(card.classList.contains('flipped')?'.back .flip-btn':'.front .flip-btn');
+    setTimeout(function(){t.focus({preventScroll:true})},400);});});
+});
+
+// ===== Koch Institute images (slow pan/zoom + crossfade) =====
+var KI_IMAGES=[
+  {src:'assets/ki/sugar-galaxy-2026.jpg', credit:'Sugar Galaxy Exploration — Koch Institute Image Awards 2026'},
+  {src:'assets/ki/ki-2025.jpg',           credit:'Koch Institute Image Awards 2025'}
+];
+(function(){
+  var box=document.getElementById('kiBg'), cred=document.getElementById('kiCredit'), imgs=[];
+  var pending=KI_IMAGES.length; if(!pending) return;
+  KI_IMAGES.forEach(function(k){ var im=new Image(); im.alt='';
+    im.onload=function(){imgs.push({el:im,credit:k.credit}); box.appendChild(im); if(--pending===0) start();};
+    im.onerror=function(){ if(--pending===0) start(); }; im.src=k.src; });
+  function start(){ if(!imgs.length) return; var i=0;
+    function show(n){ imgs.forEach(function(o,j){o.el.classList.toggle('on',j===n)}); cred.textContent='Image: '+imgs[n].credit; cred.classList.add('on'); }
+    show(0); if(imgs.length>1) setInterval(function(){ i=(i+1)%imgs.length; show(i); },11000); }
+})();
+
+// ===== glycocalyx: complex glycans on a cell membrane =====
+(function(){
+  var cv=document.getElementById('glycoCanvas'); if(!cv||!cv.getContext) return;
+  var ctx=cv.getContext('2d'), dpr=Math.min(2,devicePixelRatio||1), W=0,H=0, items=[], running=true;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // SNFG monosaccharide symbols
+  var S={GlcNAc:['sq','#0072BC'],Man:['ci','#00A651'],Gal:['ci','#FFD400'],Glc:['ci','#0072BC'],GalNAc:['sq','#FFD400'],
+         Fuc:['tri','#ED1C24'],Neu5Ac:['dia','#A54399'],GlcA:['dia2','#0072BC'],IdoA:['dia2','#A17A44'],Xyl:['star','#F47920'],Neu5Gc:['dia','#8FCCE9']};
+  function node(k,ang,len,kids){return {k:k,ang:ang,len:len,kids:kids||[]}}
+  // ---- glycan templates (angles relative to parent direction, in radians) ----
+  function antenna(sialyl){ return node('GlcNAc',0,1,[node('Gal',0,1,sialyl?[node('Neu5Ac',0,1)]:[])]); }
+  function complexN(n,fuc,sialyl){ // n = 2,3,4 antennae
+    var man=[node('Man',-.55,1,[antenna(sialyl)]), node('Man',.55,1,[antenna(sialyl)])];
+    if(n>=3) man[0].kids.push(node('GlcNAc',-.7,1,[node('Gal',0,1,sialyl?[node('Neu5Ac',0,1)]:[])]));
+    if(n>=4) man[1].kids.push(node('GlcNAc',.7,1,[node('Gal',0,1,[])]));
+    var core=node('GlcNAc',0,1,[node('GlcNAc',0,1,[node('Man',0,1,man)])]);
+    if(fuc) core.kids.push(node('Fuc',1.25,.8));
+    return core; }
+  function highMan(){ var m=node('Man',0,1,[node('Man',-.6,1,[node('Man',-.4,1),node('Man',.4,1)]), node('Man',.6,1,[node('Man',0,1,[node('Man',-.4,1),node('Man',.4,1)])])]);
+    return node('GlcNAc',0,1,[node('GlcNAc',0,1,[m])]); }
+  function hybrid(){ return node('GlcNAc',0,1,[node('GlcNAc',0,1,[node('Man',0,1,[node('Man',-.6,1,[node('Man',-.4,1),node('Man',.4,1)]),node('Man',.6,1,[antenna(true)])])])]); }
+  function oGlycan(){ return node('GalNAc',0,1,[node('Gal',-.6,1,[node('Neu5Ac',0,1)]), node('GlcNAc',.6,1,[node('Gal',0,1,[node('Fuc',1.2,.8),node('Neu5Ac',0,1)])])]); }
+  function mucin(){ // several short O-glycans along a stalk
+    return {mucin:true, units:[node('GalNAc',0,1,[node('Gal',-.7,.9,[node('Neu5Ac',0,.9)]),node('Neu5Ac',.8,.9)]), node('GalNAc',0,1,[node('Gal',0,.9,[node('Neu5Ac',-.6,.9)])]), node('GalNAc',0,1,[node('Neu5Ac',.7,.9)])]}; }
+  function ganglioside(){ return node('Glc',0,1,[node('Gal',0,1,[node('Neu5Ac',.95,.9,[node('Neu5Ac',0,.9)]), node('GalNAc',0,1,[node('Gal',0,1,[node('Neu5Ac',-.8,.9)])])])]); }
+  function gag(len){ var chain=null; for(var i=0;i<len;i++){ var k=i%2?'GlcNAc':'GlcA'; chain=node(k,(i%2?-.18:.18),.9,chain?[chain]:[]); }
+    return node('Xyl',0,1,[node('Gal',0,1,[node('Gal',0,1,[node('GlcA',0,1,[chain])])])]); }
+  var TEMPLATES=[function(){return complexN(2,true,true)},function(){return complexN(3,true,true)},function(){return complexN(2,false,true)},function(){return complexN(4,true,true)},
+                 highMan,hybrid,oGlycan,oGlycan,ganglioside,mucin,function(){return gag(10)},function(){return complexN(2,true,false)}];
+  function rnd(a,b){return a+Math.random()*(b-a)}
+  function membraneY(x){ return H-26+Math.sin(x/210)*7+Math.sin(x/57)*2.5; }
+  function build(){
+    items=[]; var x=rnd(10,40);
+    while(x<W-10){
+      var t=TEMPLATES[Math.floor(Math.random()*TEMPLATES.length)]();
+      var isLipid=(t.k==='Glc'), isGag=(t.k==='Xyl'), isMucin=!!t.mucin;
+      items.push({x:x,g:t,stalk:isLipid?0:(isMucin?rnd(80,120):(isGag?rnd(26,46):rnd(22,60))),u:rnd(13.5,17.5),ph:rnd(0,6.28),w:rnd(.35,.6),
+                  amp:isMucin||isGag?.09:.06,tilt:rnd(-.22,.22),alpha:rnd(.55,.95)});
+      x+=isMucin||isGag?rnd(70,110):rnd(44,80);
+    }
+  }
+  function resize(){ var r=cv.getBoundingClientRect(); W=r.width; H=r.height; cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); build(); if(reduce) frame(0,true); }
+  function sym(kind,x,y,r){ var k=S[kind]; ctx.fillStyle=k[1]; ctx.beginPath();
+    switch(k[0]){
+      case 'ci': ctx.arc(x,y,r,0,6.283); break;
+      case 'sq': ctx.rect(x-r,y-r,2*r,2*r); break;
+      case 'tri': ctx.moveTo(x,y-r);ctx.lineTo(x+r,y+r*.85);ctx.lineTo(x-r,y+r*.85);ctx.closePath(); break;
+      case 'dia': ctx.moveTo(x,y-r*1.25);ctx.lineTo(x+r*1.25,y);ctx.lineTo(x,y+r*1.25);ctx.lineTo(x-r*1.25,y);ctx.closePath(); break;
+      case 'dia2': ctx.moveTo(x,y-r*1.25);ctx.lineTo(x+r*1.25,y);ctx.lineTo(x,y+r*1.25);ctx.lineTo(x-r*1.25,y);ctx.closePath(); ctx.fill();
+        ctx.fillStyle=bgCol; ctx.beginPath(); ctx.moveTo(x,y-r*1.25);ctx.lineTo(x+r*1.25,y);ctx.lineTo(x,y+r*1.25);ctx.closePath(); break;
+      case 'star': for(var i=0;i<10;i++){var a=-Math.PI/2+i*Math.PI/5, rr=i%2?r*.5:r*1.2; ctx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr);} ctx.closePath(); break;
+    } ctx.fill(); ctx.strokeStyle=outline; ctx.lineWidth=.6; ctx.stroke(); }
+  function drawTree(n,x,y,dir,u,t,depth,sway){
+    var a=dir+n.ang+Math.sin(t*1.1+depth*.9+sway)*0.035*depth;
+    var nx=x+Math.cos(a)*u*n.len, ny=y+Math.sin(a)*u*n.len;
+    ctx.strokeStyle=lineCol; ctx.lineWidth=1.3; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(nx,ny); ctx.stroke();
+    n.kids.forEach(function(c){drawTree(c,nx,ny,a,u,t,depth+1,sway)});
+    sym(n.k,nx,ny,u*.3);
+  }
+  var lineCol,outline,memCol,memFill,bgCol,protCol;
+  function theme(){ var cs=getComputedStyle(document.documentElement); var dark=document.documentElement.getAttribute('data-theme')==='dark'||(!document.documentElement.getAttribute('data-theme')&&matchMedia('(prefers-color-scheme: dark)').matches);
+    lineCol=dark?'rgba(200,210,215,.55)':'rgba(60,70,80,.5)'; outline=dark?'rgba(0,0,0,.35)':'rgba(0,0,0,.25)'; bgCol=cs.getPropertyValue('--bg').trim();
+    memCol=cs.getPropertyValue('--accent').trim(); memFill=dark?'rgba(92,200,191,.10)':'rgba(13,107,103,.08)'; protCol=dark?'rgba(154,165,174,.6)':'rgba(93,102,112,.55)'; }
+  function frame(ts,once){
+    var t=(ts||0)/1000; ctx.clearRect(0,0,W,H);
+    // cytoplasm fill + bilayer
+    ctx.fillStyle=memFill; ctx.beginPath(); ctx.moveTo(0,H); for(var x=0;x<=W;x+=6) ctx.lineTo(x,membraneY(x)); ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=memCol; ctx.globalAlpha=.55;
+    for(var x=4;x<W;x+=9){ var y=membraneY(x); ctx.beginPath(); ctx.arc(x,y,3,0,6.283); ctx.fill(); ctx.beginPath(); ctx.arc(x,y+12,3,0,6.283); ctx.fill();
+      ctx.strokeStyle=memCol; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(x-1.5,y+3); ctx.lineTo(x-1.5,y+9); ctx.moveTo(x+1.5,y+3); ctx.lineTo(x+1.5,y+9); ctx.stroke(); }
+    ctx.globalAlpha=1;
+    items.forEach(function(it,i){
+      var base=membraneY(it.x)-2, sway=Math.sin(t*it.w+it.ph)*it.amp+it.tilt, dir=-Math.PI/2+sway;
+      ctx.globalAlpha=it.alpha;
+      var x=it.x, y=base;
+      if(it.stalk){ // membrane protein stalk
+        var ex=x+Math.cos(dir)*it.stalk, ey=y+Math.sin(dir)*it.stalk;
+        ctx.strokeStyle=protCol; ctx.lineWidth=5; ctx.lineCap='round'; ctx.beginPath(); ctx.moveTo(x,y+6); ctx.lineTo(ex,ey); ctx.stroke();
+        if(it.g.mucin){ var n=it.g.units.length; it.g.units.forEach(function(u,j){ var f=(j+1)/(n+.5); var px=x+(ex-x)*f, py=y+(ey-y)*f; drawTree(u,px,py,dir+(j%2?1.35:-1.35),it.u*.85,t,1,it.ph); }); ctx.globalAlpha=1; return; }
+        x=ex; y=ey;
+      } else { ctx.strokeStyle=protCol; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x,y+10); ctx.lineTo(x,y); ctx.stroke(); }
+      drawTree(it.g,x,y,dir,it.u,t,1,it.ph);
+      ctx.globalAlpha=1;
+    });
+    if(running&&!reduce&&!once) requestAnimationFrame(frame);
+  }
+  theme(); resize(); if(!reduce) requestAnimationFrame(frame);
+  var rt; addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(resize,150)});
+  new MutationObserver(function(){theme(); if(reduce) frame(0,true);}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  new IntersectionObserver(function(es){var v=es[0].isIntersecting; if(v&&!running){running=true;requestAnimationFrame(frame);} else if(!v) running=false;}).observe(cv);
+})();
+
 </script>
 </body>
 </html>
