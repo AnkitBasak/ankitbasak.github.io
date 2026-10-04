@@ -155,6 +155,38 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.82rem;text-align:center
   .ki-credit{display:none}
 }
 
+.illo{height:132px;margin:-6px -8px 12px;border-radius:12px;background:var(--accent-soft);overflow:hidden}
+.illo svg{width:100%;height:100%;display:block}
+/* illustration animations */
+.lectin{animation:dock 5s ease-in-out infinite}
+@keyframes dock{0%{transform:translate(74px,-10px) rotate(18deg);opacity:0}22%{opacity:1}52%,80%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(74px,-10px) rotate(18deg);opacity:0}}
+.bind-glow{animation:glow 5s ease-in-out infinite;opacity:0}
+@keyframes glow{0%,50%{opacity:0}58%,78%{opacity:1}90%,100%{opacity:0}}
+.immune{animation:migrate 6s linear infinite}
+@keyframes migrate{0%{transform:translate(0,40px);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translate(var(--dx,0),-6px);opacity:0}}
+.cyto{animation:diffuse 5s ease-in infinite;opacity:0}
+@keyframes diffuse{0%{transform:translateY(0) scale(.6);opacity:0}15%{opacity:.95}70%{opacity:.5}100%{transform:translateY(46px) scale(1.5);opacity:0}}
+.vlp{animation:vlpIn 6.5s ease-in-out infinite}
+@keyframes vlpIn{0%{transform:translate(0,0) scale(1);opacity:0}8%{opacity:1}
+  46%{transform:translate(126px,-2px) scale(1);opacity:1}
+  62%{transform:translate(156px,0) scale(.42);opacity:.95}
+  72%,100%{transform:translate(156px,0) scale(.42);opacity:0}}
+.tlr{opacity:.4;animation:tlrOn 6.5s ease-in-out infinite}
+@keyframes tlrOn{0%,58%{opacity:.4}68%,88%{opacity:1}100%{opacity:.4}}
+.tlr-glow{opacity:0;animation:tlrGlow 6.5s ease-in-out infinite}
+@keyframes tlrGlow{0%,60%{opacity:0;transform:scale(.55)}72%{opacity:1;transform:scale(1)}92%,100%{opacity:0;transform:scale(1.4)}}
+.signal{opacity:0;animation:signalUp 6.5s ease-in-out infinite}
+@keyframes signalUp{0%,66%{opacity:0;transform:translateY(6px)}78%{opacity:1;transform:translateY(0)}94%,100%{opacity:0;transform:translateY(-8px)}}
+.spot{animation:spotpulse 3.2s ease-in-out infinite}
+@keyframes spotpulse{0%,100%{opacity:.18}50%{opacity:.95}}
+.blink{animation:blink 2.4s steps(1) infinite}
+@keyframes blink{0%,100%{opacity:1}23%{opacity:.15}31%{opacity:1}58%{opacity:.25}64%{opacity:1}}
+.track{stroke-dasharray:430;stroke-dashoffset:430;animation:draw 6s ease-in-out infinite}
+@keyframes draw{0%{stroke-dashoffset:430}70%,100%{stroke-dashoffset:0}}
+.tracer{offset-path:path("M30 92 C70 58 110 98 150 72 S220 36 270 62 S340 92 376 48");animation:trace 6s ease-in-out infinite}
+@keyframes trace{0%{offset-distance:0%}70%,100%{offset-distance:100%}}
+
+
 /* ===== flip cards ===== */
 .flip{perspective:1400px;display:flex}
 .flip-inner{display:grid;width:100%;transition:transform .8s cubic-bezier(.3,.7,.2,1);transform-style:preserve-3d}
@@ -168,7 +200,7 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.82rem;text-align:center
 .flip-btn .ic{display:inline-block;transition:transform .5s}
 .flip-btn:hover .ic{transform:rotate(180deg)}
 .back .flip-btn{margin-top:10px}
-@media (prefers-reduced-motion:reduce){.ki-bg img.on{animation:none}.flip-inner{transition:none}}
+@media (prefers-reduced-motion:reduce){.ki-bg img.on,.lectin,.bind-glow,.immune,.spot,.blink,.track,.tracer,.cyto,.vlp,.tlr,.tlr-glow,.signal{animation:none}.flip-inner{transition:none}}
 </style>
 </head>
 <body>
@@ -264,7 +296,34 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.82rem;text-align:center
       <article class="flip">
         <div class="flip-inner">
           <div class="face front">
-            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="13" r="2.5"/><circle cx="12" cy="20.5" r="1.8"/><path d="M7.8 7.6 10.3 11.4M16.2 7.6 13.7 11.4M12 15.5v3.2"/></svg></div>
+            <div class="illo"><svg viewBox="0 0 400 118" aria-hidden="true">
+              <path d="M0 100 Q200 88 400 100 V118 H0Z" fill="var(--accent)" opacity=".18"/>
+              <path d="M0 100 Q200 88 400 100" fill="none" stroke="var(--accent)" stroke-width="2"/>
+              <g stroke="var(--muted)" stroke-width="1.6" fill="none">
+                <path d="M70 94 V74 M70 74 L61 62 M70 74 L79 62"/>
+                <path d="M150 90 V70 M150 70 L141 58 M150 70 L159 58"/>
+                <path d="M250 90 V68 M250 68 L241 56 M250 68 L259 56"/>
+                <path d="M330 95 V75 M330 75 L321 63 M330 75 L339 63"/>
+              </g>
+              <g><rect x="66" y="80" width="9" height="9" fill="#0072BC"/><circle cx="61" cy="60" r="5" fill="#FFD400"/><circle cx="79" cy="60" r="5" fill="#00A651"/></g>
+              <g><rect x="146" y="76" width="9" height="9" fill="#0072BC"/><circle cx="141" cy="56" r="5" fill="#FFD400"/><path d="M159 51 l5 5 l-5 5 l-5 -5Z" fill="#A54399"/></g>
+              <g><rect x="246" y="74" width="9" height="9" fill="#0072BC"/><circle cx="241" cy="54" r="5" fill="#00A651"/><circle cx="259" cy="54" r="5" fill="#FFD400"/></g>
+              <g><rect x="326" y="81" width="9" height="9" fill="#0072BC"/><path d="M321 58 l5 9 l-10 0Z" fill="#ED1C24"/><circle cx="339" cy="63" r="5" fill="#00A651"/></g>
+              <circle class="bind-glow" cx="252" cy="52" r="15" fill="none" stroke="var(--accent-2)" stroke-width="2"/>
+              <g class="lectin" style="transform-origin:252px 30px">
+                <path d="M230 26 C224 13 236 5 246 7 C255 2 270 5 273 15 C282 18 284 30 278 37
+                         C277 44 269 48 263 45 L257 50 L252 45 L246 48 C237 49 229 42 229 34 Z"
+                      fill="var(--accent)" fill-opacity=".92" stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M239 40 V18 M246 42 V15 M253 41 V17" stroke="#fff" stroke-opacity=".45" stroke-width="2.4" stroke-linecap="round"/>
+                <path d="M264 15 q7 3.5 0 7 q-7 3.5 0 7 q7 3.5 0 7" stroke="#fff" stroke-opacity=".6" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+                <circle cx="254" cy="43" r="3" fill="#fff" fill-opacity=".92"/>
+                <g stroke="var(--accent-2)" stroke-width="1.7" fill="none">
+                  <path d="M272 10 q7 -5 14 0 q7 5 14 0"/><path d="M272 4 q7 5 14 0 q7 -5 14 0"/>
+                  <path d="M277 8.5 V5 M286 7 V7 M293 8.5 V5"/>
+                </g>
+              </g>
+              <text x="10" y="16" font-size="9" fill="var(--muted)" font-family="Inter,sans-serif">barcoded lectin docks into its glycan-binding site</text>
+            </svg></div>
             <h3>GlycoScope: functional glycan profiling at single-cell and spatial resolution</h3>
             <p>A multimodal platform pairing DNA-barcoded human recombinant lectins with protein and mRNA readouts, so glycan binding can be measured in the same cell and the same tissue section as everything else.</p>
             <button class="flip-btn" type="button">Read the bigger picture <span class="ic">↻</span></button>
@@ -281,7 +340,36 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.82rem;text-align:center
       <article class="flip">
         <div class="flip-inner">
           <div class="face front">
-            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9c0-3 3.6-5 8-5s8 2 8 5c0 4-2 11-4 11-1.6 0-1.6-5-4-5s-2.4 5-4 5c-2 0-4-7-4-11z"/></svg></div>
+            <div class="illo"><svg viewBox="0 0 400 118" aria-hidden="true">
+              <defs><linearGradient id="cytoGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="var(--accent-2)" stop-opacity=".26"/>
+                <stop offset="1" stop-color="var(--accent-2)" stop-opacity="0"/></linearGradient></defs>
+              <rect x="0" y="42" width="400" height="76" fill="url(#cytoGrad)"/>
+              <g fill="var(--accent)" opacity=".3">
+                <rect x="4" y="20" width="36" height="20" rx="9"/><rect x="44" y="20" width="36" height="20" rx="9"/><rect x="84" y="20" width="36" height="20" rx="9"/>
+                <rect x="124" y="20" width="36" height="20" rx="9"/><rect x="164" y="20" width="36" height="20" rx="9"/><rect x="204" y="20" width="36" height="20" rx="9"/>
+                <rect x="244" y="20" width="36" height="20" rx="9"/><rect x="284" y="20" width="36" height="20" rx="9"/><rect x="324" y="20" width="36" height="20" rx="9"/><rect x="364" y="20" width="34" height="20" rx="9"/>
+              </g>
+              <path d="M0 45 Q100 40 200 45 T400 45" stroke="var(--accent)" stroke-width="1.5" fill="none" stroke-dasharray="4 4"/>
+              <g fill="var(--accent-2)">
+                <circle class="cyto" cx="60" cy="45" r="3.4" style="animation-delay:0s"/><circle class="cyto" cx="140" cy="45" r="3" style="animation-delay:.9s"/>
+                <circle class="cyto" cx="215" cy="45" r="3.4" style="animation-delay:1.8s"/><circle class="cyto" cx="300" cy="45" r="3" style="animation-delay:2.6s"/>
+                <circle class="cyto" cx="365" cy="45" r="3.4" style="animation-delay:3.4s"/><circle class="cyto" cx="25" cy="45" r="2.8" style="animation-delay:4.2s"/>
+                <circle class="cyto" cx="255" cy="45" r="2.8" style="animation-delay:1.3s"/><circle class="cyto" cx="100" cy="45" r="2.8" style="animation-delay:3.0s"/>
+              </g>
+              <g fill="var(--accent-2)">
+                <circle class="immune" cx="55" cy="100" r="6" style="--dx:10px;animation-delay:0s"/>
+                <circle class="immune" cx="145" cy="104" r="5" style="--dx:-8px;animation-delay:1.5s"/>
+                <circle class="immune" cx="250" cy="102" r="6" style="--dx:12px;animation-delay:3s"/>
+                <circle class="immune" cx="340" cy="104" r="5" style="--dx:-6px;animation-delay:4.2s"/>
+              </g>
+              <g fill="var(--muted)" opacity=".7">
+                <circle class="immune" cx="200" cy="108" r="2.6" style="--dx:34px;animation-delay:2.2s"/>
+                <circle class="immune" cx="100" cy="108" r="2.6" style="--dx:-24px;animation-delay:.8s"/>
+                <circle class="immune" cx="300" cy="108" r="2.6" style="--dx:18px;animation-delay:3.6s"/>
+              </g>
+              <text x="10" y="13" font-size="9" fill="var(--muted)" font-family="Inter,sans-serif">epithelial chemokine gradient draws immune cells in</text>
+            </svg></div>
             <h3>Oral mucosal inflammation</h3>
             <p>Single-cell and spatial atlases of periodontitis, peri-implantitis and human fungiform taste buds, asking how epithelial and stromal cells organize the immune and microbial life around them.</p>
             <button class="flip-btn" type="button">Read the bigger picture <span class="ic">↻</span></button>
@@ -298,15 +386,67 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.82rem;text-align:center
       <article class="flip">
         <div class="flip-inner">
           <div class="face front">
-            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
-            <h3>Spatial multi-omics &amp; glyco-immunology</h3>
-            <p>Collaborative work integrating many molecular layers on the same tissue slide, and on how carbohydrate–lectin interactions can reprogram dendritic cells for anti-tumor immunity.</p>
+            <div class="illo"><svg viewBox="0 0 400 118" aria-hidden="true">
+              <defs><radialGradient id="tlrGlowG"><stop offset="0" stop-color="var(--accent-2)" stop-opacity=".8"/><stop offset="1" stop-color="var(--accent-2)" stop-opacity="0"/></radialGradient></defs>
+              <!-- dendritic cell: veiled, many-processed -->
+              <g>
+                <path d="M344.6 60.0 C345.1 60.4 346.0 60.8 347.1 61.3 C348.2 61.7 349.6 62.2 351.0 62.8 C352.4 63.4 354.0 64.0 355.4 64.7 C356.8 65.4 358.3 66.1 359.4 66.9 C360.4 67.6 361.3 68.4 361.7 69.1 C362.1 69.7 362.0 70.4 361.6 70.9 C361.1 71.5 360.1 71.9 358.9 72.2 C357.7 72.5 356.0 72.7 354.3 72.7 C352.7 72.8 350.7 72.8 348.9 72.7 C347.2 72.6 345.4 72.5 343.9 72.4 C342.4 72.3 341.0 72.1 339.9 72.1 C338.8 72.1 338.0 72.1 337.5 72.3 C336.9 72.5 336.7 72.8 336.7 73.3 C336.7 73.8 337.1 74.4 337.7 75.3 C338.2 76.1 339.2 77.2 340.1 78.4 C341.1 79.7 342.4 81.2 343.4 82.7 C344.4 84.1 345.6 85.9 346.3 87.3 C347.0 88.7 347.5 90.1 347.4 91.1 C347.4 92.0 346.9 92.7 346.0 92.9 C345.1 93.1 343.6 92.8 342.1 92.3 C340.6 91.7 338.6 90.6 336.8 89.5 C335.0 88.5 333.1 87.0 331.4 85.8 C329.8 84.6 328.2 83.4 326.9 82.4 C325.6 81.3 324.6 80.4 323.6 79.8 C322.7 79.1 322.0 78.6 321.4 78.3 C320.8 78.0 320.3 77.9 319.9 77.9 C319.4 77.9 319.1 78.1 318.8 78.5 C318.5 78.8 318.3 79.4 318.0 80.1 C317.7 80.8 317.5 81.8 317.3 82.9 C317.0 83.9 316.7 85.3 316.4 86.6 C316.0 87.9 315.6 89.4 315.0 90.7 C314.5 91.9 313.8 93.2 313.1 94.1 C312.4 94.9 311.6 95.6 310.8 95.7 C310.1 95.9 309.2 95.7 308.6 95.2 C307.9 94.6 307.2 93.6 306.7 92.6 C306.1 91.5 305.7 90.1 305.3 88.9 C305.0 87.6 304.7 86.3 304.5 85.2 C304.2 84.2 304.0 83.2 303.7 82.5 C303.4 81.8 303.1 81.4 302.7 81.2 C302.3 81.0 301.8 81.0 301.1 81.3 C300.4 81.5 299.7 82.0 298.7 82.5 C297.8 83.1 296.7 83.8 295.6 84.6 C294.4 85.3 293.1 86.2 291.7 87.0 C290.4 87.7 288.9 88.5 287.6 89.1 C286.2 89.7 284.8 90.2 283.7 90.4 C282.5 90.6 281.4 90.6 280.6 90.4 C279.8 90.2 279.2 89.7 278.9 89.0 C278.6 88.4 278.5 87.5 278.7 86.5 C278.8 85.6 279.2 84.4 279.7 83.3 C280.1 82.3 280.8 81.1 281.4 80.0 C282.0 79.0 282.7 78.0 283.3 77.1 C283.8 76.2 284.3 75.4 284.5 74.8 C284.6 74.2 284.7 73.7 284.3 73.4 C283.9 73.1 283.3 73.0 282.1 73.0 C281.0 73.0 279.3 73.2 277.4 73.4 C275.5 73.6 272.9 74.1 270.5 74.3 C268.2 74.5 265.3 74.7 263.3 74.7 C261.3 74.6 259.3 74.4 258.5 73.9 C257.6 73.5 257.4 72.7 258.1 71.9 C258.8 71.1 260.5 70.0 262.5 69.0 C264.4 68.1 267.2 67.0 269.6 66.1 C272.1 65.3 274.8 64.5 276.9 63.8 C279.0 63.1 280.9 62.6 282.3 62.1 C283.6 61.7 284.5 61.3 284.9 61.0 C285.4 60.6 285.4 60.3 285.1 60.0 C284.9 59.7 284.2 59.4 283.3 59.0 C282.4 58.6 281.2 58.2 279.9 57.7 C278.6 57.2 277.0 56.7 275.4 56.0 C273.8 55.4 272.0 54.7 270.5 54.0 C269.0 53.3 267.4 52.4 266.3 51.7 C265.2 50.9 264.2 50.1 263.7 49.3 C263.2 48.6 263.0 47.9 263.2 47.3 C263.3 46.7 264.0 46.2 264.6 45.7 C265.3 45.3 266.3 44.9 267.2 44.6 C268.0 44.2 269.1 44.0 269.9 43.6 C270.7 43.3 271.4 43.0 272.0 42.6 C272.6 42.2 273.0 41.8 273.3 41.3 C273.6 40.7 273.8 40.2 273.9 39.5 C274.0 38.9 274.0 38.2 273.9 37.4 C273.8 36.6 273.7 35.7 273.5 34.7 C273.3 33.8 273.0 32.7 272.8 31.7 C272.5 30.6 272.2 29.3 272.1 28.3 C272.1 27.2 272.1 26.1 272.4 25.3 C272.8 24.5 273.4 23.8 274.4 23.6 C275.4 23.4 276.8 23.5 278.4 23.9 C279.9 24.4 281.9 25.4 283.8 26.4 C285.6 27.4 287.7 28.8 289.5 30.0 C291.3 31.3 293.0 32.7 294.4 33.7 C295.8 34.7 297.0 35.6 297.9 36.0 C298.8 36.5 299.4 36.6 299.9 36.3 C300.3 36.0 300.5 35.3 300.7 34.3 C300.9 33.3 300.9 31.8 301.0 30.2 C301.2 28.7 301.3 26.7 301.6 25.0 C301.8 23.3 302.2 21.5 302.8 20.2 C303.4 18.9 304.2 17.7 305.0 17.3 C305.8 16.8 306.9 16.9 307.8 17.4 C308.8 18.0 309.8 19.2 310.7 20.5 C311.6 21.8 312.4 23.6 313.1 25.2 C313.8 26.8 314.4 28.7 314.9 30.2 C315.4 31.7 315.8 33.1 316.2 34.2 C316.6 35.3 317.0 36.2 317.3 36.9 C317.7 37.6 318.1 38.0 318.5 38.3 C318.9 38.6 319.3 38.7 319.9 38.6 C320.4 38.6 320.9 38.4 321.6 38.1 C322.3 37.8 323.0 37.3 323.9 36.8 C324.7 36.3 325.7 35.7 326.7 35.1 C327.7 34.5 328.8 33.8 329.9 33.3 C330.9 32.7 332.1 32.2 333.1 31.9 C334.2 31.6 335.2 31.4 336.0 31.4 C336.8 31.5 337.5 31.8 337.9 32.2 C338.3 32.7 338.5 33.5 338.5 34.3 C338.5 35.2 338.3 36.2 337.9 37.3 C337.6 38.3 337.0 39.5 336.4 40.5 C335.9 41.6 335.2 42.7 334.7 43.6 C334.1 44.6 333.5 45.4 333.1 46.1 C332.7 46.9 332.4 47.5 332.3 47.9 C332.2 48.4 332.2 48.8 332.5 49.0 C332.8 49.2 333.2 49.3 334.1 49.3 C335.0 49.2 336.1 49.1 337.8 48.8 C339.4 48.5 341.4 48.1 343.8 47.7 C346.1 47.3 349.0 46.7 351.7 46.3 C354.4 46.0 357.6 45.6 359.9 45.6 C362.3 45.5 364.6 45.6 365.8 46.0 C367.0 46.4 367.4 47.1 367.1 47.8 C366.7 48.6 365.3 49.6 363.7 50.6 C362.1 51.5 359.5 52.6 357.4 53.4 C355.3 54.3 352.8 55.1 350.9 55.8 C349.0 56.5 347.4 57.0 346.2 57.5 C345.1 58.1 344.5 58.4 344.2 58.8 C343.9 59.3 344.2 59.6 344.6 60.0 Z" fill="var(--accent)" opacity=".12"
+                      transform="translate(312 60) scale(1.1) translate(-312 -60)"/>
+                <path d="M344.6 60.0 C345.1 60.4 346.0 60.8 347.1 61.3 C348.2 61.7 349.6 62.2 351.0 62.8 C352.4 63.4 354.0 64.0 355.4 64.7 C356.8 65.4 358.3 66.1 359.4 66.9 C360.4 67.6 361.3 68.4 361.7 69.1 C362.1 69.7 362.0 70.4 361.6 70.9 C361.1 71.5 360.1 71.9 358.9 72.2 C357.7 72.5 356.0 72.7 354.3 72.7 C352.7 72.8 350.7 72.8 348.9 72.7 C347.2 72.6 345.4 72.5 343.9 72.4 C342.4 72.3 341.0 72.1 339.9 72.1 C338.8 72.1 338.0 72.1 337.5 72.3 C336.9 72.5 336.7 72.8 336.7 73.3 C336.7 73.8 337.1 74.4 337.7 75.3 C338.2 76.1 339.2 77.2 340.1 78.4 C341.1 79.7 342.4 81.2 343.4 82.7 C344.4 84.1 345.6 85.9 346.3 87.3 C347.0 88.7 347.5 90.1 347.4 91.1 C347.4 92.0 346.9 92.7 346.0 92.9 C345.1 93.1 343.6 92.8 342.1 92.3 C340.6 91.7 338.6 90.6 336.8 89.5 C335.0 88.5 333.1 87.0 331.4 85.8 C329.8 84.6 328.2 83.4 326.9 82.4 C325.6 81.3 324.6 80.4 323.6 79.8 C322.7 79.1 322.0 78.6 321.4 78.3 C320.8 78.0 320.3 77.9 319.9 77.9 C319.4 77.9 319.1 78.1 318.8 78.5 C318.5 78.8 318.3 79.4 318.0 80.1 C317.7 80.8 317.5 81.8 317.3 82.9 C317.0 83.9 316.7 85.3 316.4 86.6 C316.0 87.9 315.6 89.4 315.0 90.7 C314.5 91.9 313.8 93.2 313.1 94.1 C312.4 94.9 311.6 95.6 310.8 95.7 C310.1 95.9 309.2 95.7 308.6 95.2 C307.9 94.6 307.2 93.6 306.7 92.6 C306.1 91.5 305.7 90.1 305.3 88.9 C305.0 87.6 304.7 86.3 304.5 85.2 C304.2 84.2 304.0 83.2 303.7 82.5 C303.4 81.8 303.1 81.4 302.7 81.2 C302.3 81.0 301.8 81.0 301.1 81.3 C300.4 81.5 299.7 82.0 298.7 82.5 C297.8 83.1 296.7 83.8 295.6 84.6 C294.4 85.3 293.1 86.2 291.7 87.0 C290.4 87.7 288.9 88.5 287.6 89.1 C286.2 89.7 284.8 90.2 283.7 90.4 C282.5 90.6 281.4 90.6 280.6 90.4 C279.8 90.2 279.2 89.7 278.9 89.0 C278.6 88.4 278.5 87.5 278.7 86.5 C278.8 85.6 279.2 84.4 279.7 83.3 C280.1 82.3 280.8 81.1 281.4 80.0 C282.0 79.0 282.7 78.0 283.3 77.1 C283.8 76.2 284.3 75.4 284.5 74.8 C284.6 74.2 284.7 73.7 284.3 73.4 C283.9 73.1 283.3 73.0 282.1 73.0 C281.0 73.0 279.3 73.2 277.4 73.4 C275.5 73.6 272.9 74.1 270.5 74.3 C268.2 74.5 265.3 74.7 263.3 74.7 C261.3 74.6 259.3 74.4 258.5 73.9 C257.6 73.5 257.4 72.7 258.1 71.9 C258.8 71.1 260.5 70.0 262.5 69.0 C264.4 68.1 267.2 67.0 269.6 66.1 C272.1 65.3 274.8 64.5 276.9 63.8 C279.0 63.1 280.9 62.6 282.3 62.1 C283.6 61.7 284.5 61.3 284.9 61.0 C285.4 60.6 285.4 60.3 285.1 60.0 C284.9 59.7 284.2 59.4 283.3 59.0 C282.4 58.6 281.2 58.2 279.9 57.7 C278.6 57.2 277.0 56.7 275.4 56.0 C273.8 55.4 272.0 54.7 270.5 54.0 C269.0 53.3 267.4 52.4 266.3 51.7 C265.2 50.9 264.2 50.1 263.7 49.3 C263.2 48.6 263.0 47.9 263.2 47.3 C263.3 46.7 264.0 46.2 264.6 45.7 C265.3 45.3 266.3 44.9 267.2 44.6 C268.0 44.2 269.1 44.0 269.9 43.6 C270.7 43.3 271.4 43.0 272.0 42.6 C272.6 42.2 273.0 41.8 273.3 41.3 C273.6 40.7 273.8 40.2 273.9 39.5 C274.0 38.9 274.0 38.2 273.9 37.4 C273.8 36.6 273.7 35.7 273.5 34.7 C273.3 33.8 273.0 32.7 272.8 31.7 C272.5 30.6 272.2 29.3 272.1 28.3 C272.1 27.2 272.1 26.1 272.4 25.3 C272.8 24.5 273.4 23.8 274.4 23.6 C275.4 23.4 276.8 23.5 278.4 23.9 C279.9 24.4 281.9 25.4 283.8 26.4 C285.6 27.4 287.7 28.8 289.5 30.0 C291.3 31.3 293.0 32.7 294.4 33.7 C295.8 34.7 297.0 35.6 297.9 36.0 C298.8 36.5 299.4 36.6 299.9 36.3 C300.3 36.0 300.5 35.3 300.7 34.3 C300.9 33.3 300.9 31.8 301.0 30.2 C301.2 28.7 301.3 26.7 301.6 25.0 C301.8 23.3 302.2 21.5 302.8 20.2 C303.4 18.9 304.2 17.7 305.0 17.3 C305.8 16.8 306.9 16.9 307.8 17.4 C308.8 18.0 309.8 19.2 310.7 20.5 C311.6 21.8 312.4 23.6 313.1 25.2 C313.8 26.8 314.4 28.7 314.9 30.2 C315.4 31.7 315.8 33.1 316.2 34.2 C316.6 35.3 317.0 36.2 317.3 36.9 C317.7 37.6 318.1 38.0 318.5 38.3 C318.9 38.6 319.3 38.7 319.9 38.6 C320.4 38.6 320.9 38.4 321.6 38.1 C322.3 37.8 323.0 37.3 323.9 36.8 C324.7 36.3 325.7 35.7 326.7 35.1 C327.7 34.5 328.8 33.8 329.9 33.3 C330.9 32.7 332.1 32.2 333.1 31.9 C334.2 31.6 335.2 31.4 336.0 31.4 C336.8 31.5 337.5 31.8 337.9 32.2 C338.3 32.7 338.5 33.5 338.5 34.3 C338.5 35.2 338.3 36.2 337.9 37.3 C337.6 38.3 337.0 39.5 336.4 40.5 C335.9 41.6 335.2 42.7 334.7 43.6 C334.1 44.6 333.5 45.4 333.1 46.1 C332.7 46.9 332.4 47.5 332.3 47.9 C332.2 48.4 332.2 48.8 332.5 49.0 C332.8 49.2 333.2 49.3 334.1 49.3 C335.0 49.2 336.1 49.1 337.8 48.8 C339.4 48.5 341.4 48.1 343.8 47.7 C346.1 47.3 349.0 46.7 351.7 46.3 C354.4 46.0 357.6 45.6 359.9 45.6 C362.3 45.5 364.6 45.6 365.8 46.0 C367.0 46.4 367.4 47.1 367.1 47.8 C366.7 48.6 365.3 49.6 363.7 50.6 C362.1 51.5 359.5 52.6 357.4 53.4 C355.3 54.3 352.8 55.1 350.9 55.8 C349.0 56.5 347.4 57.0 346.2 57.5 C345.1 58.1 344.5 58.4 344.2 58.8 C343.9 59.3 344.2 59.6 344.6 60.0 Z" fill="var(--accent)" fill-opacity=".2" stroke="var(--accent)" stroke-width="1.4" stroke-opacity=".75" stroke-linejoin="round"/>
+                <path d="M306.3 19.5 q-1.8 -2.5 -3.7 -5.0 M306.3 19.5 q1.3 -2.6 2.5 -5.1 M366.2 47.0 q3.2 -2.2 6.5 -4.4 M366.2 47.0 q4.8 0.1 9.5 0.2 M361.0 70.4 q4.6 -0.2 9.2 -0.4 M361.0 70.4 q3.0 1.6 6.1 3.2 M345.9 92.1 q4.9 2.0 9.8 3.9 M345.9 92.1 q1.2 2.9 2.5 5.7 M310.2 98.5 q2.4 4.0 4.7 8.0 M310.2 98.5 q-2.1 3.0 -4.1 5.9 M256.8 73.3 q-2.4 2.0 -4.9 3.9 M256.8 73.3 q-4.2 -0.6 -8.3 -1.1 M280.3 27.7 q-3.2 -1.6 -6.3 -3.1 M280.3 27.7 q-1.3 -4.0 -2.6 -8.0" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-opacity=".6" stroke-linecap="round"/>
+                <!-- eccentric lobed nucleus -->
+                <path d="M286 84 C277 82 274 73 280 67 C285 61 296 61 300 66 C305 63 311 67 309 73
+                         C312 78 307 86 299 86 C294 88 290 87 286 84 Z"
+                      fill="var(--accent)" opacity=".38"/>
+                <!-- surface lectin receptors (DC-SIGN / mannose receptor) -->
+                <g stroke="var(--accent)" stroke-width="2.1" fill="none" opacity=".95">
+                  <path d="M262 44 l-7 -6 M255 38 l-4 -4 M255 38 l-5 1"/>
+                  <path d="M272 33 l-5 -8 M267 25 l-3 -5 M267 25 l-5 1"/>
+                  <path d="M266 79 l-8 5 M258 84 l-5 3 M258 84 l0 5"/>
+                </g>
+                <!-- endosome + TLR7 -->
+                <circle cx="318" cy="56" r="16" fill="var(--bg)" opacity=".5"/>
+                <circle cx="318" cy="56" r="16" fill="none" stroke="var(--muted)" stroke-width="1.6" stroke-dasharray="3 3" opacity=".9"/>
+                <g class="tlr"><path d="M318 45 a11 11 0 1 0 8 19" fill="none" stroke="var(--accent-2)" stroke-width="4.4" stroke-linecap="round"/></g>
+                <circle class="tlr-glow" cx="318" cy="56" r="21" fill="url(#tlrGlowG)" style="transform-box:fill-box;transform-origin:center"/>
+                <text class="signal" x="330" y="110" font-size="9" fill="var(--accent-2)" font-family="Inter,sans-serif">type I IFN</text>
+              </g>
+              <!-- vaccine syringe loaded with mannosylated VLPs -->
+              <g>
+                <rect x="10" y="48" width="14" height="16" rx="2" fill="var(--muted)" opacity=".55"/>
+                <rect x="24" y="53" width="14" height="6" rx="2" fill="var(--muted)" opacity=".55"/>
+                <rect x="36" y="42" width="6" height="28" rx="2" fill="var(--muted)" opacity=".55"/>
+                <rect x="42" y="44" width="62" height="24" rx="4" fill="var(--accent)" fill-opacity=".14" stroke="var(--muted)" stroke-width="1.6"/>
+                <g opacity=".55" stroke="var(--muted)" stroke-width="1"><path d="M54 44 v5 M66 44 v5 M78 44 v5 M90 44 v5"/></g>
+                <g fill="var(--accent)" fill-opacity=".8">
+                  <polygon points="58,50 65,54 65,60 58,64 51,60 51,54"/>
+                  <polygon points="82,50 89,54 89,60 82,64 75,60 75,54"/>
+                </g>
+                <g fill="#00A651"><circle cx="58" cy="47" r="2"/><circle cx="68" cy="57" r="2"/><circle cx="82" cy="47" r="2"/><circle cx="92" cy="57" r="2"/><circle cx="48" cy="57" r="2"/><circle cx="72" cy="66" r="2"/></g>
+                <path d="M104 50 l8 4 v4 l-8 4 z" fill="var(--muted)" opacity=".7"/>
+                <path d="M112 56 H134" stroke="var(--muted)" stroke-width="2.2" stroke-linecap="round"/>
+              </g>
+              <g class="vlp" style="transform-box:fill-box;transform-origin:center">
+                <polygon points="162,36 182,48 182,70 162,82 142,70 142,48" fill="var(--accent)" fill-opacity=".88" stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M162 36 V59 M162 59 L142 70 M162 59 L182 70 M142 48 L182 70 M182 48 L142 70" stroke="#fff" stroke-opacity=".32" stroke-width="1.1"/>
+                <g fill="#00A651" stroke="#0003" stroke-width=".5">
+                  <circle cx="162" cy="27" r="4.4"/><circle cx="190" cy="42" r="4.4"/><circle cx="190" cy="76" r="4.4"/>
+                  <circle cx="162" cy="91" r="4.4"/><circle cx="134" cy="76" r="4.4"/><circle cx="134" cy="42" r="4.4"/>
+                </g>
+                <g stroke="#00A651" stroke-width="1.4">
+                  <path d="M162 31 V36 M186 44 L182 48 M186 74 L182 70 M162 87 V82 M138 74 L142 70 M138 44 L142 48"/>
+                </g>
+              </g>
+              <text x="10" y="112" font-size="9" fill="var(--muted)" font-family="Inter,sans-serif">mannosylated VLP vaccine → DC lectin uptake → endosomal TLR7</text>
+            </svg></div>
+            <h3>Glycan-based vaccines &amp; glyco-immunology</h3>
+            <p>Virus-like particles decorated with mannose engage dendritic-cell lectins, are taken up into the endosome, and signal through TLR7 — turning a carbohydrate display into the adjuvant itself.</p>
             <button class="flip-btn" type="button">Read the bigger picture <span class="ic">↻</span></button>
           </div>
           <div class="face back">
             <h3>The bigger picture</h3>
-                        <p>Combining glycan, protein and transcript measurements in space moves us toward a computationally complete picture of the tumor microenvironment.</p>
-            <p class="refs"><a href="https://doi.org/10.1158/2159-8290.CD-25-0775" target="_blank" rel="noopener">Cancer Discovery 2026</a> · <a href="https://doi.org/10.1021/acsnano.4c07360" target="_blank" rel="noopener">ACS Nano 2024</a></p>
+                        <p>Glycan density and spacing on a particle decide which lectin it finds and what the dendritic cell does next. Tuning that display reprograms DCs toward type 1 anti-tumor immunity — a vaccine design problem written in sugars.</p>
+            <p class="refs"><a href="https://doi.org/10.1021/acsnano.4c07360" target="_blank" rel="noopener">Lensch, Gabba, … Basak, … Kiessling, ACS Nano 2024 →</a></p>
             <button class="flip-btn" type="button">Back <span class="ic">↺</span></button>
           </div>
         </div>
@@ -315,7 +455,12 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.82rem;text-align:center
       <article class="flip">
         <div class="flip-inner">
           <div class="face front">
-            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg></div>
+            <div class="illo"><svg viewBox="0 0 400 118" aria-hidden="true">
+              <defs><radialGradient id="nwGlow"><stop offset="0" stop-color="#3fd17a" stop-opacity=".9"/><stop offset="1" stop-color="#3fd17a" stop-opacity="0"/></radialGradient></defs>
+              <path class="track" d="M30 92 C70 58 110 98 150 72 S220 36 270 62 S340 92 376 48" fill="none" stroke="var(--accent)" stroke-width="1.6" opacity=".7"/>
+              <g class="tracer"><g class="blink"><ellipse rx="26" ry="14" fill="url(#nwGlow)"/><rect x="-16" y="-3" width="32" height="6" rx="3" fill="#2bb565"/></g></g>
+              <text x="10" y="16" font-size="9" fill="var(--muted)" font-family="Inter,sans-serif">CsPbBr₃ nanowire · blinking + single-particle tracking</text>
+            </svg></div>
             <h3>Physical chemistry roots</h3>
             <p>Before biology: synthesis, optical characterization and single-particle tracking of CsPbBr<sub>3</sub> perovskite nanowires and quantum dots at IISER Kolkata, and pulse-sequence design for diffusion MRI and solid-state NMR at the Weizmann Institute.</p>
             <button class="flip-btn" type="button">Read the bigger picture <span class="ic">↻</span></button>
